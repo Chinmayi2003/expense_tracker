@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  background-color: #0e0f10;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sidebar {
+  width: 145px;
+  background-color: #0d0d0d;
+  height: 601px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.nav-elements{
+  padding-left: 10px;
+}
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 43px;
+      margin-top: 3px;
+      margin-left: -4px;
+}
+.profile-name{
+  font-size:19px;
+  font-weight: bold;
+  margin-top: 34px;
+    margin-bottom: 7px;
+}
+.profile-icon{
+  width:50px;
+  height: 54px;
+}
+
+.sidebar .menu-item {
+  margin: 20px 0;
+  font-weight: 400;
+  opacity: 0.9;
+  color: white;
+  margin-left: 10px;
+}
+.nav-icons{
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    margin-left: 0px;
+    margin-bottom: -11px;
+     transition: transform 0.15s ease, box-shadow 0.3s ease;
+}
+
+.nav-icons:hover {
+  cursor: pointer;
+}
+.dashboard-nav-icon,.Analytic-nav-icon, .Settings-nav-icon ,.Logout-nav-icon{
+  fill: #C1BFD9;
+}
+.nav-icons:hover .dashboard-nav-icon,
+.nav-icons:hover .Analytic-nav-icon,
+.nav-icons:hover .Settings-nav-icon,
+.nav-icons:hover .Logout-nav-icon {
+  fill: #78A55A;
+filter: drop-shadow(0 0 4px rgba(120, 165, 90, 0.2));
+}
+.Logout-nav-icon{
+  margin-left:2px;
+}
+.Settings-nav-icon{
+   margin-left: -1px;
+}
+.nav-icons:hover .menu-item {
+  color: #78A55A;
+ filter: drop-shadow(0 0 4px rgba(120, 165, 90, 0.2));
+}
+
+.Analytic-nav-icon{
+  width:27.5px;
+  margin-left: -3px;
+}
+
+.Expense-Tracker-icon{
+  width: 70px;
+  height: 70px;
+      margin-left: 4px;
+    margin-bottom: 3px;
+}
+
+
+
