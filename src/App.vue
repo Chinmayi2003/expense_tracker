@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard">
-    <Sidebar />
     <main class="main-content">
       <h1 class="title">Analytics</h1>
       <div class="grid">
@@ -14,7 +13,7 @@
 </template>
 
 <script>
-// import Sidebar from './components/AppSidebar.vue';
+
 import SpendingInsights from './components/SpendingInsights.vue';
 import KeyMetrics from './components/KeyMetrics.vue';
 import MonthlyExpenses from './components/MonthlyExpenses.vue';
@@ -23,7 +22,7 @@ import DailyExpenses from './components/DailyExpenses.vue';
 
 export default {
   components: {
-    // Sidebar,
+
     SpendingInsights,
     KeyMetrics,
     MonthlyExpenses,
