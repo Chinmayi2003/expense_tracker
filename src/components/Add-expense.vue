@@ -88,7 +88,7 @@
               v-model="form.description"
               class="inp-desc"
               style="
-                margin-left: 61px;
+                margin-left: 65px;
                 resize: none;
                 padding-left: 11px;
                 padding-top: 8px;
@@ -297,7 +297,6 @@ textarea {
   border-radius: 6px;
   border: 1px solid #565564;
   background-color: #1b1919;
-  margin-top: 4px;
   appearance: none;
 }
 .drop {
@@ -371,7 +370,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .calendar-icon {
   position: absolute;
-  top: 8px;
+  top: 6px;
   right: 10px;
   width: 20px;
   height: 20px;
