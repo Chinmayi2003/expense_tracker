@@ -160,7 +160,7 @@ export default {
     handleFileUpload(event) {
       const file = event.target.files[0];
       this.filename = file
-        ? `Selected file: ${file.name}`
+        ? `${file.name}`
         : "Upload an invoice";
     },
     submitExpense() {
