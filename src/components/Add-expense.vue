@@ -15,7 +15,7 @@
       <p class="required-note">* Indicates Required Field</p>
     </div>
 
-    <form @submit.prevent="submitExpense" style="margin-top: 40px">
+    <form @submit.prevent="submitExpense" class="expense-form">
       <div id="main-div">
         <div id="main-div1">
           <div class="form-group select-wrapper">
@@ -25,8 +25,6 @@
               :options="categoryOptions"
               class="vue-select custom-input category-select dropdown-icon"
               placeholder="Select your category"
-              :clearable="false"
-              style="margin-left: 74px; width: 285px"
               required
             />
           </div>
@@ -38,21 +36,18 @@
               :options="modeOptions"
               class="vue-select custom-input mode-select dropdown-icon"
               placeholder="Mode"
-              :clearable="false"
-              style="margin-left: 104px; width: 285px"
               required
             />
           </div>
 
           <div class="form-group">
             <label class="labels dat">Date*</label>
-            <div class="date-wrapper" :style="{ marginLeft: '104px' }">
+            <div class="date-wrapper">
               <input
                 v-model="form.date"
                 type="date"
                 class="inp date custom-date"
                 required
-                style="padding-left: 8px; font-size: 13px"
               />
               <img
                 :src="require('@/assets/datepic.svg')"
@@ -64,59 +59,34 @@
 
           <div class="form-group">
             <label class="labels total">Amount*</label>
-            <input
-              v-model="form.total"
-              type="text"
-              class="inp tot1"
-              style="margin-left: 83px; height: 26px; padding-left: 11px"
-              required
-            />
+            <input v-model="form.total" type="text" class="inp tot1" required />
             <v-select
               v-model="form.tot2"
               :options="currencyOptions"
               class="vue-select custom-input currency-select dropdown-icon"
               placeholder="Currency"
-              :clearable="false"
-              style="margin-left: 10px; width: 110px; height: 30px"
               required
             />
           </div>
 
           <div class="form-group">
             <label class="labels desc">Description</label>
-            <textarea
-              v-model="form.description"
-              class="inp-desc"
-            ></textarea>
+            <textarea v-model="form.description" class="inp-desc"></textarea>
           </div>
         </div>
 
-        <label
-          for="fileInput"
-          class="uploadlabel"
-          style="margin: 0px; margin-left: 70px"
-        >
-          <div
-            class="form-group upload"
-            tabindex="0"
-            style="display: flex; flex-direction: column"
-          >
+        <label for="fileInput" class="uploadlabel">
+          <div class="form-group upload" tabindex="0">
             <img
               :src="require('@/assets/Vector.svg')"
               alt="Upload"
-              style="
-                width: 60px;
-                height: 60px;
-                margin-top: 100px;
-                caret-color: transparent;
-              "
+              class="Vector"
             />
             <p>{{ filename }}</p>
             <input
               type="file"
               id="fileInput"
               @change="handleFileUpload"
-              style="display: none"
             />
           </div>
         </label>
@@ -171,8 +141,41 @@ export default {
 </script>
 
 <style scoped>
-@import "vue-select/dist/vue-select.css";
+.expense-form {
+  margin-top: 40px;
+}
 
+.category-select {
+  margin-left: 74px;
+  width: 285px;
+}
+
+.mode-select {
+  margin-left: 104px;
+  width: 285px;
+}
+
+.currency-select {
+  margin-left: 10px;
+  width: 110px;
+  height: 30px;
+}
+
+.uploadlabel {
+  margin: 0px;
+  margin-left: 70px;
+}
+
+.Vector {
+  width: 60px;
+  height: 60px;
+  margin-top: 100px;
+  caret-color: transparent;
+}
+
+#fileinput{
+  display: none;
+}
 h1,
 image,
 select,
@@ -249,8 +252,10 @@ h1 {
   margin-left: 35px;
 }
 .tot1 {
+  margin-left: 80px;
+  height: 25px;
+  padding-left: 11px;
   width: 150px;
-  height: 30px;
 }
 .tot2 ::placeholder {
   padding-left: 2px;
@@ -305,7 +310,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding-right: 10px;
 }
 .inp-desc {
-  margin-left: 65px;
+  margin-left: 63px;
   resize: none;
   padding-left: 11px;
   padding-top: 8px;
@@ -331,6 +336,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #78a55a;
 }
 .upload {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #565564;
   border-radius: 10px;
   background: #1b1919;
@@ -356,11 +363,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: 20px;
 }
 .date-wrapper {
+  margin-left: 104px;
   position: relative;
-  display: inline-block;
   width: 285px;
 }
 .custom-date {
+  padding-left: 8px;
+  font-size: 13px;
   box-sizing: border-box;
   cursor: pointer;
 }
