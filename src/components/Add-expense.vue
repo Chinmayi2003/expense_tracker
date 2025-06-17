@@ -87,12 +87,6 @@
             <textarea
               v-model="form.description"
               class="inp-desc"
-              style="
-                margin-left: 65px;
-                resize: none;
-                padding-left: 11px;
-                padding-top: 8px;
-              "
             ></textarea>
           </div>
         </div>
@@ -159,9 +153,7 @@ export default {
   methods: {
     handleFileUpload(event) {
       const file = event.target.files[0];
-      this.filename = file
-        ? `${file.name}`
-        : "Upload an invoice";
+      this.filename = file ? `${file.name}` : "Upload an invoice";
     },
     submitExpense() {
       console.log("Form submitted:", this.form);
@@ -270,14 +262,14 @@ h1 {
 .new-expense {
   font-family: "Roboto", sans-serif;
   background: #1b1919;
-  border: 3px solid #78a55a;
+  border: 1px solid #78a55a;
   padding: 2rem;
   border-radius: 8px;
   width: 850px;
   height: 500px;
-  margin-top: 20px;
-  margin-left: 300px;
-  margin-bottom: 10px;
+  margin-top: 42px;
+  margin-left: 145px;
+  margin-bottom: 5px;
 }
 .form-group {
   margin-bottom: 1rem;
@@ -313,6 +305,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding-right: 10px;
 }
 .inp-desc {
+  margin-left: 65px;
+  resize: none;
+  padding-left: 11px;
+  padding-top: 8px;
   font-family: "Roboto", sans-serif;
   height: 78px;
   width: 270px;

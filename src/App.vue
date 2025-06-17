@@ -1,38 +1,19 @@
-<!-- <template>
-<div style="display: flex;">
-<add-expense/>
-</div>
-</template>
- 
-<script>
-import AddExpense from './Add-expense.vue';
-
-
- 
-export default {
-  components: { AddExpense },
-  name: "App",
-  components: {
-    AddExpense
-  }
-};
-</script>
-  -->
-
-
-  <template>
-  <div >
+<template>
+  <div style="display: flex;" >
+    <MySidebar1></MySidebar1>
     <AddExpense></AddExpense>
   </div>
 </template>
 
 <script>
 import AddExpense from './components/Add-expense.vue';
+import MySidebar1 from "./components/Sidebar.vue";
 // import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
+    MySidebar1,
     AddExpense
   }
 }
