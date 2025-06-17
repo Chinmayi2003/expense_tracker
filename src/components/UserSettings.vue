@@ -1,71 +1,7 @@
 <template>
   <div class="app-container">
     
-    <!-- side bar -->
-    <aside class="sidebar">
-    <!-- <div class="app-icon">
-    <template >
-      <img
-        :src="require('@/assets/expense_tracker_logo.png')"
-        alt="Dashboard Icon"
-        style="color: aliceblue; height: 50px; width: 50px; fill: #C1BFD9;" class="icon"
-      />
-    </template>
-    
-    <h2 class="logo"> John</h2>
-    </div>
-    <ul>
-      <div class="dashboard-icon">
-    <template >
-      <img
-        :src="require('@/assets/dashboard_icon.svg')"
-        alt="Dashboard Icon"
-        style="color: aliceblue; height: 20px; width: 20px; fill: #C1BFD9;" class="icon"
-      />
-    </template>
-      <li class="dashboard-name">Dashboard</li>
-      </div>
- 
-      <div class="dashboard-icon">
-    <template >
-      <img
-        :src="require('@/assets/analytics_icon.svg')"
-        alt="Dashboard Icon"
-        style="color: aliceblue; height: 20px; width: 20px; fill: #C1BFD9;" class="icon"
-      />
-    </template>
-      <li class="dashboard-name">Analytics</li>
-      </div>
- 
-      <div class="dashboard-icon">
-    <template >
-      <img
-        :src="require('@/assets/settings_icon.svg')"
-        alt="Dashboard Icon"
-        style="color: aliceblue; height: 20px; width: 20px; fill: #C1BFD9;" class="icon"
-      />
-    </template>
-      <li class="dashboard-name">Settings</li>
-      </div>
- 
-      <div class="dashboard-icon">
-    <template >
-      <img
-        :src="require('@/assets/logout_icon.svg')"
-        alt="Dashboard Icon"
-        style="color: aliceblue; height: 20px; width: 20px; fill: #C1BFD9;" class="icon"
-      />
-    </template>
-      <li class="dashboard-name">Log out</li>
-      </div>
- 
-    </ul>
-    <img 
-        :src="require('@/assets/LOGO.svg')"
-        alt="Dashboard Icon"
-        style="color: aliceblue; height: 70px; width: 70px; margin-top: 240px;  fill: #C1BFD9;" class="icon"
-      /> -->
-  </aside>
+
 
 
     <main class="settings-content">
@@ -167,7 +103,7 @@
         </div>
         <div class="details">
         <ul>
-          <!-- <li>+91 4567880000<li> -->
+          <li>+91 4567880000<li>
           <li><a href="#">admin@gmail.com</a></li>
         </ul>
        </div>
@@ -227,20 +163,13 @@ body {
 
 .app-container {
   display: flex;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   background-color: #141414;
   color: #C1BFD9;
 }
 
-.sidebar {
-  width: 150px;
-  height: 100%;
-  /* background: #0D0D0D; */
-  padding: 20px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  color:#FFFFFF;
-}
+
  
 .app-icon {
   display: flex;
@@ -284,7 +213,7 @@ li {
   font-size: 30px;
   color: #78A55A;
   margin-bottom: 1rem;
-  margin-top: 0rem;
+  margin-top: 0.7rem;
 }
 
 .user-info {
@@ -368,7 +297,7 @@ li {
 }
 
 .rotated img {
-  transform: rotate(90deg); /* or 180deg for downward */
+  transform: rotate(90deg); 
 }
 
 
@@ -465,7 +394,6 @@ li {
 .slider {
   position: absolute;
   cursor: pointer;
-  /* background-color: #C1BFD9; */
   border-radius: 34px;
   top: 0;
   left: 0;

@@ -53,11 +53,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
+body{
+  margin: 0;
+}
+
 .login-container {
-  background-image: url('D:\OneDrive - EnerMAN Technologies Private Limited\Desktop\expense-tracker1\my-vue2-app\src\assets\wallpaper_expense.png');
+  background-image: url('@/assets/wallpaper_expense.png');
   height: 100vh;
   display: flex;
   justify-content: center;
