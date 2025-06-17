@@ -55,8 +55,8 @@ export default {
         {
           label: 'Analytics',
           icon: 'Analytics-icon.svg',
-          class: 'nav-icon',
-          id:'analytics-icon',
+       class: 'nav-icon',
+       id:'analytics-icon',
           marginLeft: '12.5px',
           width: '28.5px',
   
@@ -83,12 +83,26 @@ export default {
   }
 }
 </script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
+body {
+  margin: 0;
+  background-color: #0e0f10;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+</style>
 <style scoped>
-
+body {
+  margin: 0;
+  background-color: #0e0f10;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
 
 .sidebar {
-  width: 148px;
+  width: 145px;
   background-color: #0d0d0d;
   height: 601px;
   padding: 20px;
