@@ -79,6 +79,7 @@ export default {
   background: #141414;
   color: white;
   height: 100vh;
+  overflow-x: hidden;
 }
 .main-content {
   padding: 20px;
