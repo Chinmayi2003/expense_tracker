@@ -77,7 +77,6 @@ export default {
         total: "",
         currency: "",
         description: "",
-        tot2: "",
       },
       categoryOptions: ["Travel", "Food", "Utilities", "Other"],
       modeOptions: ["Debit card", "UPI", "Cash", "Other"],
