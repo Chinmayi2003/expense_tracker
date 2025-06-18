@@ -1,17 +1,14 @@
 <template>
   <div class="app-container">
-    
-
-
-
-    <main class="settings-content">
+    <div class="settings-content">
       <h2 class="section-title">Settings</h2>
 
       <div class="user-info">
-        <img  class="userlogo" src="@/assets/Group.svg" alt="Logo" />
-        <div>
-          <div class="user-label">John</div>
-          <a href="mailto:username@gmail.com" class="email">John@gmail.com</a>
+        <img class="userlogo" src="@/assets/Group.svg" alt="Logo" />
+
+        <div class="user-label">
+          <p>{{ userName }}</p>
+          <a href="mailto:username@gmail.com" class="email">{{ userEmail }}</a>
         </div>
       </div>
 
@@ -19,109 +16,128 @@
         <p>Account Settings</p>
         <ul>
           <li @click="toggleForm('password')">
-            <div class="list-item" >
-              <img src="@/assets/key.svg" alt="key">
-              <p style="margin-left: -6px;">Change Password</p>
-              <span class="arrow1"  :class="{ rotated: showPasswordForm }">
-              <img src="@/assets/rightarrow.svg" alt="arrow">
+            <div class="list-item">
+              <img src="@/assets/key.svg" alt="key" />
+              <p style="margin-left: -6px">Change Password</p>
+              <span class="arrow1" :class="{ rotated: showPasswordForm }">
+                <img src="@/assets/rightarrow.svg" alt="arrow" />
               </span>
             </div>
-            <div v-if="showPasswordForm" class="form-card" @click.stop>
-              <input type="password" placeholder="Current Password" />
-              <input type="password" placeholder="New Password" />
-              <input type="password" placeholder="Confirm Password" />
-              <div class="form-actions">
-                <button @click.stop="closeForm('password')">Cancel</button>
-                <button @click.stop.prevent="saveForm('password')">Save</button>
-              </div>
-            </div>
+            <SettingsFormCard
+              v-if="showPasswordForm"
+              :fields="[
+                { type: 'password', placeholder: 'Current Password' },
+                { type: 'password', placeholder: 'New Password' },
+                { type: 'password', placeholder: 'Confirm Password' },
+              ]"
+              @cancel="closeForm('password')"
+              @save="saveForm('password', $event)"
+            />
           </li>
 
           <li @click="toggleForm('email')">
-            <div class="list-item" >
-               <img src="@/assets/mail.svg" alt="" style="width: 16px;"> 
-               <p>Change Email</p>
-              <span class="arrow2"  :class="{ rotated: showEmailForm }"><img src="@/assets/rightarrow.svg" alt="arrow"></span>
+            <div class="list-item">
+              <img src="@/assets/mail.svg" alt="" style="width: 16px" />
+              <p>Change Email</p>
+              <span class="arrow2" :class="{ rotated: showEmailForm }"
+                ><img src="@/assets/rightarrow.svg" alt="arrow" />
+              </span>
             </div>
-            <div v-if="showEmailForm" class="form-card" @click.stop>
-              <input type="email" placeholder="Current Email" />
-              <input type="email" placeholder="New Email" />
-              <div class="form-actions">
-                <button @click.stop="closeForm('email')">Cancel</button>
-                <button @click.stop.prevent="saveForm('email')">Save</button>
-              </div>
-            </div>
+            <SettingsFormCard
+              v-if="showEmailForm"
+              :fields="[
+                { type: 'email', placeholder: 'Current Email' },
+                { type: 'email', placeholder: 'New Email' },
+              ]"
+              @cancel="closeForm('email')"
+              @save="saveForm('email', $event)"
+            />
           </li>
 
           <li @click="toggleForm('phone')">
-            <div class="list-item list-item3" @click.stop="toggleForm('phone')" >
-              <img src="@/assets/phone.svg" alt="" width="22px">
-               <p style="margin-left: -11px;">Change Phone Number</p>
-              <span class="arrow3"  :class="{ rotated: showPhoneForm }"><img src="@/assets/rightarrow.svg" alt="arrow"></span>
+            <div class="list-item list-item3" @click.stop="toggleForm('phone')">
+              <img src="@/assets/phone.svg" alt="" width="22px" />
+              <p style="margin-left: -11px">Change Phone Number</p>
+              <span class="arrow3" :class="{ rotated: showPhoneForm }">
+                <img src="@/assets/rightarrow.svg" alt="arrow" />
+              </span>
             </div>
-            <div v-if="showPhoneForm" class="form-card" @click.stop>
-              <input type="text" placeholder="Current Number" />
-              <input type="text" placeholder="New Number" />
-              <div class="form-actions">
-                <button @click.stop="closeForm('phone')">Cancel</button>
-                <button @click.stop.prevent="saveForm('phone')">Save</button>
-              </div>
-            </div>
+            <SettingsFormCard
+              v-if="showPhoneForm"
+              :fields="[
+                { type: 'text', placeholder: 'Current Number' },
+                { type: 'text', placeholder: 'New Number' },
+              ]"
+              @cancel="closeForm('phone')"
+              @save="saveForm('phone', $event)"
+            />
           </li>
         </ul>
       </section>
 
       <section class="notifications">
         <p>Notification</p>
-
-            <div class="notif-item">
-              <img src="@/assets/bell.svg" alt="bell">
-              <p style="margin-left: 3px;">Weekly Summary</p>
-              <span class="btn1"><label class="switch"><input type="checkbox" /><span class="slider round"></span></label></span>
-            </div>
+        <div class="notif-item">
+          <img src="@/assets/bell.svg" alt="bell" />
+          <p style="margin-left: 3px">Weekly Summary</p>
+          <span class="btn1">
+            <label class="switch"
+              ><input type="checkbox" /> <span class="slider round"></span
+            ></label>
+          </span>
+        </div>
 
         <div class="notif-item">
-              <img src="@/assets/alert.svg" alt="alert">
-              <p style="margin-left: 7px;">Budget Alerts</p>
-              <span class="btn2"><label class="switch"><input type="checkbox" /><span class="slider round"></span></label></span>
-          </div>
-
+          <img src="@/assets/alert.svg" alt="alert" />
+          <p style="margin-left: 7px">Budget Alerts</p>
+          <span class="btn2">
+            <label class="switch"
+              ><input type="checkbox" /> <span class="slider round"></span
+            ></label>
+          </span>
+        </div>
 
         <div class="notif-item">
-              <img src="@/assets/bill.svg" alt="bill">
-              <p style="margin-left: 3px;">Bill Reminders</p>
-              <span class="btn3"><label class="switch"><input type="checkbox" /><span class="slider round"></span></label></span>
-            </div>
-
+          <img src="@/assets/bill.svg" alt="bill" />
+          <p style="margin-left: 3px">Bill Reminders</p>
+          <span class="btn3">
+            <label class="switch"
+              ><input type="checkbox" /> <span class="slider round"></span
+            ></label>
+          </span>
+        </div>
       </section>
 
       <section class="support">
         <p>Help & Support</p>
-        <div class="suppt">
-          <img  class="contactus" src="@/assets/contactus.svg" alt="contactus">
-        <p >Contact Us</p> 
+        <div class="support-item">
+          <img src="@/assets/contactus.svg" alt="contactus" />
+          <p>Contact Us</p>
         </div>
-        <div class="details">
-        <ul>
-          <li>+91 4567880000<li>
+        <ul class="details">
+          <li>+91 4567880000</li>
           <li><a href="#">admin@gmail.com</a></li>
         </ul>
-       </div>
       </section>
-    </main>
+    </div>
   </div>
-
-
 </template>
 
 <script>
+import SettingsFormCard from "@/components/FormCard.vue";
+
 export default {
   name: "SettingsPage",
+  components: {
+    SettingsFormCard,
+  },
   data() {
     return {
+      userName: "John",
+      userEmail: "John@gmail.com",
       showPasswordForm: false,
       showEmailForm: false,
-      showPhoneForm: false
+      showPhoneForm: false,
     };
   },
   methods: {
@@ -145,111 +161,70 @@ export default {
       if (type === "email") this.showEmailForm = false;
       if (type === "phone") this.showPhoneForm = false;
     },
-    saveForm(type) {
-      alert(`${type.charAt(0).toUpperCase() + type.slice(1)} updated successfully!`);
-    }
-  }
+    saveForm(type, values) {
+      console.log(`${type} values:`, values);
+      alert(
+        `${type.charAt(0).toUpperCase() + type.slice(1)} updated successfully!`
+      );
+    },
+  },
 };
-
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 .app-container {
   display: flex;
-  height: 100vh;
+  height: 93.9vh;
   width: 100%;
   background-color: #141414;
-  color: #C1BFD9;
+  padding: 2rem 0 0 2.8rem;
 }
 
-
- 
-.app-icon {
-  display: flex;
-}
- 
-.icon {
-  padding-top: 15px;
-}
-.dashboard-icon {
-  display: flex;
-  padding-top: 0px;
-}
-.dashboard-name {
-  padding-left: 10px;
- 
-}
-.logo {
-  margin-bottom: 30px;
-  font-size: 20px;
-  padding-left: 20px;
-  padding-top: 25px;
-}
 ul {
   list-style: none;
   padding: 0;
 }
+
 li {
   margin: 15px 0;
 }
 
- .sidebar.icon {
-  align-items: end;
-  justify-content: end;
-}
-.settings-content {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  padding: 2rem 0 0 2.8rem;
-}
-
 .section-title {
   font-size: 30px;
-  color: #78A55A;
-  margin-bottom: 1rem;
-  margin-top: 0.7rem;
+  color: #78a55a;
+  margin: 0.7rem 0 1rem;
 }
 
 .user-info {
   display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
+  font-size: 15px;
 }
 
 .user-label {
-  font-size: 14px;
   color: #aaa;
-  padding: 15px;
+  padding-left: 15px;
 }
 
 .email {
-  font-size: 14px;
   color: #4fc3f7;
   text-decoration: none;
-  padding: 0 0 0 15px;
 }
 
-.account-settings, .notifications, .support {
+.account-settings,
+.notifications,
+.support {
   margin-bottom: 1.5rem;
 }
 
 .account-settings p,
 .notifications p,
 .support p {
-  font-size: 16px;
-  margin-bottom: 0rem;
-  color: #C1BFD9;
+  color: #c1bfd9;
 }
 
 .account-settings ul {
-  list-style: none;
-  padding: 0;
   padding-left: 2rem;
 }
 
@@ -257,13 +232,13 @@ li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap:20px ;
   cursor: pointer;
 }
 
-.list-item p{
+.list-item p {
   margin: 0;
 }
+
 .list-item .arrow1 {
   padding-left: 100px;
 }
@@ -276,71 +251,15 @@ li {
   padding-left: 55px;
 }
 
-.list-item3 p{
-  gap: 0px;
-  margin: 0;
-}
-
 .account-settings li p {
   margin-right: 0.5rem;
 }
 
-.arrow {
-  font-size: 18px;
-  color: #C1BFD9;
-}
-
-.arrow1 img,
-.arrow2 img,
-.arrow3 img {
-  transition: transform 0.3s ease;
-}
-
 .rotated img {
-  transform: rotate(90deg); 
+  transform: rotate(90deg);
 }
 
-
-.form-card {
-  background-color: #1a1a1a;
-  padding: 1rem;
-  margin-top: 0.5rem;
-  border: 1px solid #333;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-card input {
-  padding: 0.5rem;
-  background-color: #222;
-  border: 1px solid #444;
-  color: #C1BFD9;
-  border-radius: 4px;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.form-actions button {
-  background-color: transparent;
-  border: 1px solid #88ff88;
-  color: #88ff88;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.form-actions button:hover {
-  background-color: #88ff88;
-  color: #000;
-}
-
-.notifications P{
+.notifications P {
   margin-bottom: 0.5rem;
 }
 
@@ -350,31 +269,19 @@ li {
   padding-left: 2rem;
 }
 
-
-.notif-item .btn1{
+.notif-item .btn1 {
   padding-left: 115px;
 }
 
-.notif-item .btn2{
+.notif-item .btn2 {
   padding-left: 140px;
 }
 
-.notif-item .btn3{
+.notif-item .btn3 {
   padding-left: 138px;
 }
 
-.support-link {
-  text-decoration: none;
-  color: #4fc3f7;
-}
-
-.support .contactus {
-  margin-right: 20px;
-  padding-top: 15px;
-  width: 23px;
-}
-
-.notif-item p{
+.notif-item p {
   margin-top: 0.4rem;
 }
 
@@ -383,12 +290,6 @@ li {
   display: inline-block;
   width: 36px;
   height: 18px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
 }
 
 .slider {
@@ -400,7 +301,7 @@ li {
   right: 0;
   bottom: 0;
   transition: 0.4s;
-   background-color: white;
+  background-color: white;
 }
 
 .slider:before {
@@ -412,7 +313,7 @@ li {
   bottom: 2px;
   background-color: #000000;
   border-radius: 50%;
-  transition: 0.4s;
+  transition: 0.2s;
 }
 
 input:checked + .slider {
@@ -424,20 +325,25 @@ input:checked + .slider:before {
   background-color: white;
 }
 
-.support P{
+.support P {
   margin-bottom: 0.2rem;
 }
-.suppt {
+
+.support-item {
   display: flex;
- padding-left: 2rem;
-  
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-left: 2rem;
 }
 
-.details li{
- margin: 0;
- padding-left: 2rem;
+.details li {
+  margin: 0;
+  color: #c1bfd9;
+  padding-left: 2rem;
 }
-.details a{
-  color:#439bc4 ;
+
+.details a {
+  color: #439bc4;
 }
 </style>

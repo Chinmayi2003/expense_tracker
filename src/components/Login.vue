@@ -1,17 +1,25 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h2>Login</h2>
-       
+      <h2 class="heading">Login</h2>
 
-      <div  class="input-wrapper"  >
-       <input   type="email" placeholder="Email" v-model="email" />
+      <div class="input-wrapper">
+        <input
+          type="email"
+          placeholder="Email"
+          v-model="email"
+          class="input_box"
+        />
       </div>
-      
 
-      <div class=" password-wrapper input-wrapper">
-        <input :type="showPassword ? 'text' : 'password'" placeholder="Password" v-model="password" autocomplete="off"   />
-      
+      <div class="password-wrapper input-wrapper">
+        <input
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="Password"
+          v-model="password"
+          autocomplete="off"
+          class="input_box"
+        />
         <span class="toggle" @click="togglePassword">
           <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
         </span>
@@ -24,8 +32,12 @@
       <div class="separator">or continue with</div>
 
       <button class="google-btn">
-         <img :src="require('@/assets/googlelogo.png')" alt="Google logo" class="google-logo" />
-          <p>Sign in with Google</p>
+        <img
+          :src="require('@/assets/googlelogo.png')"
+          alt="Google logo"
+          class="google-logo"
+        />
+        <p>Sign in with Google</p>
       </button>
     </div>
   </div>
@@ -36,9 +48,9 @@ export default {
   name: "LoginForm",
   data() {
     return {
-      email: '',
-      password: '',
-      showPassword: false
+      email: "",
+      password: "",
+      showPassword: false,
     };
   },
   methods: {
@@ -48,20 +60,14 @@ export default {
     login() {
       // Handle login logic
       console.log("Logging in with", this.email, this.password);
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style >
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-
-body{
-  margin: 0;
-}
-
+<style scoped>
 .login-container {
-  background-image: url('@/assets/wallpaper_expense.png');
+  background-image: url("@/assets/wallpaper_expense.png");
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -69,78 +75,58 @@ body{
 }
 
 .login-box {
-  background-color: #161A20;
+  background-color: #161a20;
   padding: 2rem;
   border-radius: 30px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
   width: 330px;
   opacity: 0.9;
   color: #fff;
   text-align: center;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-h2 {
+.heading {
   margin-top: 0.1rem;
   margin-bottom: 3rem;
   font-size: 46px;
   font-weight: 700;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"] {
+.input_box {
   width: 90%;
   padding: 13px;
   margin-bottom: 0.8rem;
-  background-color: #1D2B3B;
-  border: none;
-  border-radius: 6px;
-  color: #ffffff;
-  outline: none;
   cursor: text;
-  position: relative;
 }
+
 .input-wrapper {
   position: relative;
-  width: 100%;
   margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
-  transition: all 0.3s ease;
 }
 
 .input-wrapper::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -2px;
-  background: conic-gradient(
-    from 0deg,
-    #5dd1c0,
-    #401d50,
-    #354A4C,
-    #2c8f87
-  );
+  background: conic-gradient(from 0deg, #5dd1c0, #401d50, #354a4c, #2c8f87);
   border-radius: 10px;
   z-index: 1;
-  transform: rotate(0deg);
-  animation: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 .input-wrapper:hover::before,
 .input-wrapper:focus-within::before {
-  animation: rotateBorder 1s linear ;
+  animation: rotateBorder 1s linear;
   opacity: 1;
 }
 
 .input-wrapper::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 2px;
-  background: #1D2B3B;
+  background: #1d2b3b;
   border-radius: 6px;
   z-index: 2;
 }
@@ -167,11 +153,6 @@ input[type="text"] {
   }
 }
 
-.password-wrapper {
-  position: relative;
-}
-
-
 .toggle {
   position: absolute;
   right: 16px;
@@ -193,8 +174,7 @@ input[type="text"] {
 }
 
 .login-btn {
- 
-  background-color: #354A4C;
+  background-color: #354a4c;
   color: white;
   border: none;
   padding: 12px;
@@ -208,8 +188,9 @@ input[type="text"] {
 }
 
 .login-btn:hover {
-   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 5px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
- }
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 5px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
 .separator {
   font-size: 14px;
   margin-bottom: 1rem;
@@ -218,12 +199,11 @@ input[type="text"] {
 }
 
 .google-btn {
-  background-color:transparent;
+  background-color: transparent;
   color: #fff;
   border: none;
   padding: 10px;
   width: 98%;
-  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -233,9 +213,9 @@ input[type="text"] {
   cursor: default;
 }
 
-.google-btn img ,
+.google-btn img,
 .google-btn p {
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .google-btn img {
