@@ -2,8 +2,8 @@
   <div style="display: flex;">
     <MySidebar1 />
     <div class="dashboard">
-      <h1 style="color:#78A55A; margin-left: 16px;">Dashboard</h1>
-      <SummaryCards1 />
+      <h1 class="dashboard-header">Dashboard</h1>
+      <SummaryCards1 class="card-spacing" />
       <TransactionsTable1 />
     </div>
   </div>
@@ -23,22 +23,33 @@ export default {
   }
 };
 </script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
-body {
-  margin: 0;
-  background-color: #0e0f10;
-  color: white;
-  font-family: 'Roboto', sans-serif;
-}
-</style>
 <style>
-.dashboard{
-  width:100%;
-  margin-top: 30px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 19px;
-}
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+  body {
+    margin: 0;
+    background-color: #0e0f10;
+    color: white;
+    font-family: "Roboto", sans-serif;
+  }
+</style>
+
+<style>
+  .dashboard {
+    width: 100%;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 19px;
+  }
+  .dashboard-header {
+    color: #78a55a;
+    margin-left: 16px;
+  }
+  .card-spacing {
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 20px;
+  }
 </style>
