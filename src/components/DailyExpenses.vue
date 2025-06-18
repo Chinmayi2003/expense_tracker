@@ -120,19 +120,9 @@ export default {
   font-size: 22px;
   font-weight: 400;
   color: #C1BFD9;
-  margin-top: 5px;
-  margin-bottom: 20px;
+  margin: 5px 0 20px 0;
   padding-left: 20px;
 }
 
-.card.full {
-  background: #0d0d0d;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
-  width: 1005px;
-  height: 380px;
-  border: 1px solid #6e6d7a;
-  margin-left: 185px;
-}
+
 </style>

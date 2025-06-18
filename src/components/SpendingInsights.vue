@@ -1,49 +1,78 @@
+
 <template>
   <div class="card">
     <p class="spending">Spending Insights</p>
 
-    <div class="item">
-      <img src="@/assets/Food logo.svg" alt="Food Icon" class="icon icon-food" />
-      <p class="category">Food</p>
-      <p class="price price-food">₹7000</p>
-    </div>
-
-    <div class="item">
-      <img src="@/assets/petrol.svg" alt="Fuel Icon" class="icon icon-fuel" />
-      <p class="category" style="padding-left: 27px;">Fuel</p>
-      <p class="price price-fuel">₹1000</p>
-    </div>
-
-    <div class="item">
-      <img src="@/assets/Rent Icon.svg" alt="Rent Icon" class="icon icon-rent" />
-      <p class="category category-rent">Rent</p>
-      <p class="price price-rent">₹7500</p>
-    </div>
-
-    <div class="item">
-      <img src="@/assets/Travel icon.svg" alt="Travel Icon" class="icon icon-travel" />
-      <p class="category">Travel</p>
-      <p class="price price-travel">₹4000</p>
-    </div>
-
-    <div class="item">
-      <img src="@/assets/Salary Icon.svg" alt="Salary Icon" class="icon icon-salary" />
-      <p class="category category-salary">Salary</p>
-      <p class="price price-salary">₹30000</p>
+    <div
+      class="item"
+      v-for="(item, index) in insights"
+      :key="index"
+    >
+      <img :src="item.icon" :alt="`${item.category} Icon`" :class="['icon', item.iconClass]" />
+      <p class="category" :class="item.categoryClass" :style="item.categoryStyle">{{ item.category }}</p>
+      <p class="price" :class="item.priceClass" :style="item.priceStyle">{{ item.amount }}</p>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      insights: [
+        {
+          category: 'Food',
+          amount: '₹7000',
+          icon: require('@/assets/Food logo.svg'),
+          iconClass: 'icon-food',
+          categoryClass: '',
+          priceClass: 'price-food',
+          priceStyle: { paddingLeft: '39px' },
+        },
+        {
+          category: 'Fuel',
+          amount: '₹1000',
+          icon: require('@/assets/petrol.svg'),
+          iconClass: 'icon-fuel',
+          categoryClass: '',
+          categoryStyle: { paddingLeft: '27px' },
+          priceClass: 'price-fuel',
+          priceStyle: { paddingLeft: '44px' },
+        },
+        {
+          category: 'Rent',
+          amount: '₹7500',
+          icon: require('@/assets/Rent Icon.svg'),
+          iconClass: 'icon-rent',
+          categoryClass: 'category-rent',
+          priceClass: 'price-rent',
+          priceStyle: { paddingLeft: '45px' },
+        },
+        {
+          category: 'Travel',
+          amount: '₹4000',
+          icon: require('@/assets/Travel icon.svg'),
+          iconClass: 'icon-travel',
+          categoryClass: '',
+          priceClass: 'price-travel',
+          priceStyle: { paddingLeft: '35px' },
+        },
+        {
+          category: 'Salary',
+          amount: '₹30000',
+          icon: require('@/assets/Salary Icon.svg'),
+          iconClass: 'icon-salary',
+          categoryClass: 'category-salary',
+          priceClass: 'price-salary',
+          priceStyle: { paddingLeft: '35px' },
+        },
+      ],
+    };
+  },
+};
+</script>
+
 <style scoped>
-.card {
-  background: #0d0d0d;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #6e6d7a;
-  width: 240px;
-  height: 300px;
-  margin-left: 185px;
-}
 
 .spending {
   padding-left: 25px;
@@ -111,7 +140,8 @@
   padding-left: 45px;
 }
 
-.price-travel ,.price-salary {
+.price-travel,
+.price-salary {
   padding-left: 35px;
 }
 </style>

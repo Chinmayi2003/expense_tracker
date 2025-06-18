@@ -39,15 +39,7 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  background: #0d0d0d;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #6E6D7A;
-  width: 80%;
-  max-width: 400px;
-  height: auto;
-}
+
 
 .title {
   font-size: 22px;

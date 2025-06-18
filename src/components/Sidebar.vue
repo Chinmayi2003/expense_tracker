@@ -104,12 +104,11 @@ body {
 .sidebar {
   width: 145px;
   background-color: #0d0d0d;
-  height: 550px;
+  height: 93.9vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: fixed;
 }
 
 .nav-elements {

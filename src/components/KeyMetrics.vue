@@ -17,15 +17,7 @@
 </template>
 
 <style scoped>
-.card {
-  background: #0d0d0d;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #6e6d7a;
-  border-radius: 12px;
-  width: 240px;
-  height: 300px;
-}
+
 
 .key-metrics {
   font-size: 22px;
