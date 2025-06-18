@@ -35,7 +35,7 @@
 
           <div class="form-group">
             <label class="labels total">Amount*</label>
-            <input v-model="form.total" type="text" class="inp tot1 " required />
+            <input v-model="form.total" type="text" class="inp tot1 amount1" required />
             <v-select v-model="form.tot2" :options="currencyOptions"
               class="vue-select custom-input currency-select dropdown-icon" :searchable="false" placeholder="Currency"
               required />
@@ -43,7 +43,7 @@
 
           <div class="form-group">
             <label class="labels desc">Description</label>
-            <textarea v-model="form.description" class="inp-desc "></textarea>
+            <textarea v-model="form.description" class="inp-desc"></textarea>
           </div>
         </div>
 
@@ -181,7 +181,6 @@ export default {
   border: 1.5px solid #78a55a;
 }
 
-
 .date::-webkit-calendar-picker-indicator {
   width: 100%;
   opacity: 0;
@@ -239,15 +238,19 @@ export default {
   color: #c1bfd9;
 }
 
-input,
-textarea {
-  height: 30px;
-  width: 285px;
+.amount1,
+.date,
+.inp-desc {
   color: #565564;
   border-radius: 6px;
   border: 1px solid #565564;
   background-color: #1b1919;
   appearance: none;
+}
+
+.date {
+  height: 30px;
+  width: 285px;
 }
 
 .drop {
