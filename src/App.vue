@@ -12,7 +12,6 @@
 import SettingsPage from './components/UserSettings.vue'
 import MySidebar1 from "./components/Sidebar.vue";
 
-
 export default {
   name: 'App',
   components:
