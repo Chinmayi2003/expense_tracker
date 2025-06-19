@@ -83,7 +83,8 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
+    position: sticky;
+}
 
 .sidebar {
   width: 145px;
@@ -93,6 +94,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: sticky;
 }
   .nav-elements {
     padding-left: 10px;
