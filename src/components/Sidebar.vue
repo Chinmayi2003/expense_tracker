@@ -53,7 +53,7 @@ export default {
         },
         {
           label: "Settings",
-          icon: "Settings-icon.svg",
+          icon: "settings-icon.svg",
           class: "nav-icon",
           marginLeft: "14px",
           width: "24.8px",
