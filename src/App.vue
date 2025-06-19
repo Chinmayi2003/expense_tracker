@@ -1,35 +1,45 @@
 <template>
-  <div class="dashboard" style="display: flex;">
+  <div class="analytics" style="display: flex">
     <MySidebar1 />
-    <main class="main-content">
+    <!-- <AddExpense></AddExpense> -->
+    <div class="dashboard">
+      <h1 class="dashboard-header">Dashboard</h1>
+      <SummaryCards1 class="card-spacing" />
+      <TransactionsTable1 /> 
+    </div>
+    <!-- <main class="main-content">
       <p class="title">Analytics</p>
       <div class="grid">
-        <SpendingInsights class="spending-card"/>
-        <KeyMetrics class="keymatrics-card"/>
-        <MonthlyExpenses class="monthly-card"/>
+        <SpendingInsights class="spending-card" />
+        <KeyMetrics class="keymatrics-card" />
+        <MonthlyExpenses class="monthly-card" />
       </div>
-      <DailyExpenses class="daily-card"/>
-    </main>
+      <DailyExpenses class="daily-card" />
+    </main> -->
   </div>
 </template>
 
 <script>
-
-import SpendingInsights from './components/SpendingInsights.vue';
-import KeyMetrics from './components/KeyMetrics.vue';
-import MonthlyExpenses from './components/MonthlyExpenses.vue';
-import DailyExpenses from './components/DailyExpenses.vue';
+// import SpendingInsights from "./components/SpendingInsights.vue";
+// import KeyMetrics from "./components/KeyMetrics.vue";
+// import MonthlyExpenses from "./components/MonthlyExpenses.vue";
+// import DailyExpenses from "./components/DailyExpenses.vue";
+// import AddExpense from "./components/Add-expense.vue";
 import MySidebar1 from "./components/Sidebar.vue";
-
+import SummaryCards1 from "./components/SummaryCards.vue";
+import TransactionsTable1 from "./components/TransactionTable.vue";
 
 export default {
   components: {
     MySidebar1,
-    SpendingInsights,
-    KeyMetrics,
-    MonthlyExpenses,
-    DailyExpenses
-  }
+    // SpendingInsights,
+    // KeyMetrics,
+    // MonthlyExpenses,
+    // DailyExpenses,
+    // AddExpense,
+    SummaryCards1,
+    TransactionsTable1,
+  },
 };
 </script>
 
@@ -58,7 +68,7 @@ export default {
   background: #0d0d0d;
   padding: 20px;
   border-radius: 12px;
-  border: 1px solid #6E6D7A;
+  border: 1px solid #6e6d7a;
   width: 30vw;
   height: auto;
 }
@@ -73,13 +83,13 @@ export default {
   margin: 20px 0 0 10px;
 }
 
-.dashboard {
+.analytics {
   display: flex;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   background: #141414;
   color: white;
   height: 100vh;
-  overflow-x: hidden;
+  overflow-y: hidden;
 }
 .main-content {
   padding: 20px;
@@ -90,7 +100,7 @@ export default {
 }
 
 .title {
-  color: #78A55A;
+  color: #78a55a;
   margin-top: 20px;
   margin-left: 10px;
   font-size: 35px;
@@ -99,5 +109,34 @@ export default {
 .grid {
   display: flex;
   gap: 20px;
+}
+</style>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+body {
+  margin: 0;
+  background-color: #0e0f10;
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+.dashboard {
+  width: 100%;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 19px;
+}
+
+.dashboard-header {
+  color: #78a55a;
+  margin-left: 16px;
+}
+.card-spacing {
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 20px;
 }
 </style>
