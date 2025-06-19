@@ -85,6 +85,15 @@ export default {
     justify-content: space-between;
   }
 
+.sidebar {
+  width: 145px;
+  background-color: #0d0d0d;
+  height: 93.9vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
   .nav-elements {
     padding-left: 10px;
   }
