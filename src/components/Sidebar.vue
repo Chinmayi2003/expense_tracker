@@ -6,7 +6,7 @@
         <h2 class="profile-name">John</h2>
       </div>
 
-      <div class="nav-icons" v-for="(item, index) in navItems" :key="index">
+      <div class="nav-icons" v-for="(item, index) in navItems" :key="index" @click="item.func">
         <img
           :src="require(`@/assets/${item.icon}`)"
           :alt="item.label"
@@ -41,7 +41,8 @@ export default {
           class: "nav-icon",
           marginLeft: "14px",
           width: "23px",
-          height: "23px"
+          height: "23px",
+          func: () => this.$router.push({ name: 'dashboard' })
         },
         {
           label: "Analytics",
@@ -49,7 +50,8 @@ export default {
           class: "nav-icon",
           id: "analytics-icon",
           marginLeft: "12.5px",
-          width: "28.5px"
+          width: "28.5px",
+          func: () => this.$router.push({ name: 'analytics' })
         },
         {
           label: "Settings",
@@ -57,7 +59,8 @@ export default {
           class: "nav-icon",
           marginLeft: "14px",
           width: "24.8px",
-          height: "26px"
+          height: "26px",
+          func: () => this.$router.push({ name: 'setting' })
         },
         {
           label: "Logout",
@@ -66,7 +69,8 @@ export default {
           marginLeft: "15px",
           width: "22px",
           id: "logout-icon",
-          height: "21px"
+          height: "21px",
+          func: () => this.$router.push({ name: 'login' })
         }
       ]
     };

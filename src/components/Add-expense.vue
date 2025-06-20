@@ -3,7 +3,7 @@
     <div>
       <div class="header">
         <h1 class="page-title">New Expense</h1>
-        <img :src="require('@/assets/close.svg')" alt="Exit" class="header2" />
+        <img :src="require('@/assets/close.svg')" alt="Exit" class="header2" @click="$emit('close')" />
       </div>
       <p class="required-note">* Indicates Required Field</p>
     </div>
@@ -56,7 +56,7 @@
         </label>
       </div>
 
-      <button type="submit" class="my-button">Save</button>
+      <button type="submit" class="my-button" @click="$emit('close')">Save</button>
     </form>
   </div>
 </template>
@@ -218,6 +218,9 @@ export default {
 }
 
 .new-expense {
+  position: absolute;
+  left: 12%;
+  top: 5%;
   background: #1b1919;
   border: 1px solid #78a55a;
   padding: 32px;

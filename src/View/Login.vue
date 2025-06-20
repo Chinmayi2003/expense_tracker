@@ -27,7 +27,7 @@
 
       <a href="#" class="forgot-password">Forgot Password?</a>
 
-      <button class="login-btn rotating-border" @click="login">Login</button>
+      <button class="login-btn rotating-border" @click="loginHandler">Login</button>
 
       <div class="separator">or continue with</div>
 
@@ -57,10 +57,9 @@ export default {
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
-    login() {
-      // Handle login logic
-      console.log("Logging in with", this.email, this.password);
-    },
+   loginHandler() {
+      this.$router.push({ name: 'dashboard' });
+    }
   },
 };
 </script>

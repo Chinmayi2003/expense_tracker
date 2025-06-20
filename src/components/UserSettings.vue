@@ -178,6 +178,8 @@ export default {
   width: 100%;
   background-color: #141414;
   padding: 2rem 0 0 2.8rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 ul {

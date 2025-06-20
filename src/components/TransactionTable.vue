@@ -1,9 +1,10 @@
 <template>
+<div>
   <div class="transactions">
     <div class="table">
       <div class="container1">
         <h2 class="table_header">Recent Transactions</h2>
-        <button class="expense_button">
+        <button class="expense_button" @click="addExpenseHandler">
           <span class="icon">+</span>
           Add expense
         </button>
@@ -55,13 +56,21 @@
       </table>
     </div>
   </div>
+  <AddExpense v-show="addExpenseDialog" @close="addExpenseDialog=false" />
+</div>
 </template>
 
 <script>
+import AddExpense from '@/components/Add-expense.vue'
+
 export default {
   name: "TransactionsTable1",
+  components: {
+    AddExpense
+  },
   data() {
     return {
+      addExpenseDialog: false,
       actionIcons: [
         {
           name: "edit",
@@ -120,6 +129,11 @@ export default {
       ],
     };
   },
+  methods: {
+    addExpenseHandler() {
+      this.addExpenseDialog = true;
+    }
+  }
 };
 </script>
 
