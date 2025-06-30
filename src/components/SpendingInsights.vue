@@ -1,9 +1,12 @@
 
-<template>
-  <div class="card">
-    <p class="spending">Spending Insights</p>
-
-    <div
+  <!-- <div class="card"> -->
+    <!-- <p class="spending">Spending Insights</p> -->
+     <!-- <div v-if="insights.length === 0" class="no-data-message"> -->
+       <!-- <img src="@/assets/cute-puppy.png" alt="No Data" class="no-data-icon" /> -->
+      <!-- <p>No insights available yet.</p>
+      <p>Start adding transactions to see spending patterns!</p>
+    </div> -->
+    <!-- <div
       class="item"
       v-for="(item, index) in insights"
       :key="index"
@@ -13,91 +16,55 @@
       <p class="price" :class="item.priceClass" :style="item.priceStyle">{{ item.amount }}</p>
     </div>
   </div>
-</template>
-
-<script>
+</template> -->
+ 
+<!-- <script>
+ 
+import { mapGetters } from 'vuex'
+ 
 export default {
-  data() {
-    return {
-      insights: [
-        {
-          category: 'Food',
-          amount: '₹7000',
-          icon: require('@/assets/Food logo.svg'),
-          iconClass: 'icon-food',
-          categoryClass: '',
-          priceClass: 'price-food',
-          priceStyle: { paddingLeft: '39px' },
-        },
-        {
-          category: 'Fuel',
-          amount: '₹1000',
-          icon: require('@/assets/petrol.svg'),
-          iconClass: 'icon-fuel',
-          categoryClass: '',
-          categoryStyle: { paddingLeft: '27px' },
-          priceClass: 'price-fuel',
-          priceStyle: { paddingLeft: '44px' },
-        },
-        {
-          category: 'Rent',
-          amount: '₹7500',
-          icon: require('@/assets/Rent Icon.svg'),
-          iconClass: 'icon-rent',
-          categoryClass: 'category-rent',
-          priceClass: 'price-rent',
-          priceStyle: { paddingLeft: '45px' },
-        },
-        {
-          category: 'Travel',
-          amount: '₹4000',
-          icon: require('@/assets/Travel icon.svg'),
-          iconClass: 'icon-travel',
-          categoryClass: '',
-          priceClass: 'price-travel',
-          priceStyle: { paddingLeft: '35px' },
-        },
-        {
-          category: 'Salary',
-          amount: '₹30000',
-          icon: require('@/assets/Salary Icon.svg'),
-          iconClass: 'icon-salary',
-          categoryClass: 'category-salary',
-          priceClass: 'price-salary',
-          priceStyle: { paddingLeft: '35px' },
-        },
-      ],
-    };
-  },
-};
+  name: 'SpendingInsights',
+  computed: {
+    ...mapGetters(['topSpendingCategories']),
+ 
+    insights() {
+      return this.topSpendingCategories;
+    }
+  }
+}
 </script>
-
+ 
 <style scoped>
-
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* horizontal centering */
+}
+ 
 .spending {
-  padding-left: 25px;
   font-size: 22px;
   font-weight: 400;
   margin-top: 0px;
   margin-bottom: 20px;
   color: #c1bfd9;
+  text-align: center;
 }
-
+ 
 .item {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 5px;
 }
-
+ 
 .icon {
   height: 25px;
   width: 25px;
   fill: #c1bfd9;
   color: aliceblue;
-  padding-left: 20px;
+  padding-left: 8px;
 }
-
+ 
 .icon-fuel {
   height: 38px;
   width: 38px;
@@ -105,41 +72,165 @@ export default {
   margin-bottom: -5px;
   margin-right: -10px;
 }
-
+ 
 .category {
   padding-left: 25px;
   margin: 0;
   color: #ffffff;
   font-size: 14px;
 }
-
+ 
 .category-rent {
   padding-left: 25px;
 }
-
+ 
 .category-salary {
   padding-left: 25px;
 }
-
+ 
 .price {
   font-size: 24px;
   margin: 0;
   color: #ffffff;
   opacity: 0.7;
 }
-
+ 
 .price-food {
   padding-left: 39px;
 }
-
+ 
 .price-fuel {
   padding-left: 44px;
 }
-
+ 
 .price-rent {
   padding-left: 45px;
 }
+ 
+.price-travel,
+.price-salary {
+  padding-left: 35px;
+}
+</style> -->
 
+<template>
+  <div class="card">
+    <p class="spending">Spending Insights</p>
+     <!-- <div v-if="insights.length === 0" class="no-data-message"> -->
+       <!-- <img src="@/assets/cute-puppy.png" alt="No Data" class="no-data-icon" /> -->
+      <!-- <p>No insights available yet.</p>
+      <p>Start adding transactions to see spending patterns!</p>
+    </div> -->
+    <div
+      class="item"
+      v-for="(item, index) in insights"
+      :key="index"
+    >
+    <div class="spending-items">
+      <img :src="item.icon" :alt="`${item.category} Icon`" :class="['icon', item.iconClass]" />
+      <p class="category" :class="item.categoryClass" :style="item.categoryStyle">{{ item.category }}</p>
+      </div>
+        <p class="price" :class="item.priceClass" :style="item.priceStyle">{{ item.amount }}</p>
+    </div>
+  </div>
+</template>
+ 
+<script>
+ 
+import { mapGetters } from 'vuex'
+ 
+export default {
+  name: 'SpendingInsights',
+  computed: {
+    ...mapGetters(['topSpendingCategories']),
+ 
+    insights() {
+      return this.topSpendingCategories;
+    }
+  }
+}
+</script>
+ 
+<style scoped>
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* horizontal centering */
+}
+ 
+.spending {
+  font-size: 22px;
+  font-weight: 400;
+  margin-top: 9px;
+  margin-bottom: 20px;
+  color: #c1bfd9;
+  text-align: center;
+}
+ .spending-items{
+  display: flex; 
+  align-items: center;
+  padding-right: 83px;
+  margin-left: 140px;
+ }
+.item {
+  display: flex;
+  margin-left: -201px;
+  align-items: center;
+  width: 100%;
+  max-width: 320px; /* Optional: control width of the content */
+  margin-bottom: 16px;
+}
+.icon {
+  height: 25px;
+  width: 25px;
+  margin-right: 8px;
+}
+ 
+.icon-fuel {
+  height: 38px;
+  width: 38px;
+  margin-left: -5px;
+  margin-bottom: -5px;
+  margin-right: -10px;
+}
+ 
+.category {
+  margin: 0;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.price {
+  font-size: 24px;
+  /* padding-left: 79px; */
+  /* text-align: right; */
+  margin: 0;
+  color: #ffffff;
+  opacity: 0.7;
+}
+ 
+.category-rent {
+  padding-left: 25px;
+}
+ 
+.category-salary {
+  padding-left: 25px;
+}
+ 
+
+ 
+.price-food {
+  padding-left: 39px;
+}
+ 
+.price-fuel {
+  padding-left: 44px;
+}
+ 
+.price-rent {
+  padding-left: 45px;
+}
+ 
 .price-travel,
 .price-salary {
   padding-left: 35px;

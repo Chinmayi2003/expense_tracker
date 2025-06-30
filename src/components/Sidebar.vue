@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { auth } from '@/firebase';
 export default {
   name: "MySidebar1",
   data() {
@@ -42,7 +43,11 @@ export default {
           marginLeft: "14px",
           width: "23px",
           height: "23px",
-          func: () => this.$router.push({ name: 'dashboard' })
+         func: () => {
+  if (this.$route.name !== 'dashboard') {
+    this.$router.push({ name: 'dashboard' }).catch(() => {});
+  }
+}
         },
         {
           label: "Analytics",
@@ -70,7 +75,10 @@ export default {
           width: "22px",
           id: "logout-icon",
           height: "21px",
-          func: () => this.$router.push({ name: 'login' })
+          func: () =>{  auth.signOut().then(() => {
+              // this.$store.commit('RESET_STATE');
+      this.$router.push({ name: 'login' });
+    });}
         }
       ]
     };
@@ -80,26 +88,15 @@ export default {
 
 <style scoped>
   .sidebar {
-    width: 145px;
-    height: 93.9vh;
-    background-color: #0d0d0d;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: sticky;
-}
-
-.sidebar {
-  width: 145px;
-  background-color: #0d0d0d;
-  height: 93.9vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: sticky;
-}
+      width: 11.7vw;
+      height: 93.9vh;
+      background-color: #0d0d0d;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+  }
   .nav-elements {
     padding-left: 10px;
   }

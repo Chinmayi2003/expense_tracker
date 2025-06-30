@@ -8,19 +8,34 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: "SummaryCards1",
-  data() {
-    return {
-      summaryData: [
-        { label: "Balance", amount: "₹1200.37" },
-        { label: "Total Spending", amount: "₹5000" },
-        { label: "Money Saved", amount: "₹2500" },
-        { label: "Income Source", amount: "₹2500" },
-      ]
+  computed: {
+    ...mapGetters(['balance', 'incomeTotal', 'expenseTotal', 'moneySaved']),
+    summaryData() {
+       const currencySymbol = this.getCurrencySymbolFromLatestTransaction();
+      return [
+        { label: "Balance", amount: `${currencySymbol}${this.balance.toFixed(2)}` },
+        { label: "Total Spending", amount: `${currencySymbol}${this.expenseTotal.toFixed(2)}` },
+        { label: "Money Saved", amount: `${currencySymbol}${this.moneySaved.toFixed(2)}` },
+        { label: "Income Source", amount: `${currencySymbol}${this.incomeTotal.toFixed(2)}` },
+      ];
+    }
+  },
+  methods: {
+  getCurrencySymbolFromLatestTransaction() {
+    if (!this.$store.state.transactions.length) return '₹'; 
+    const latest = this.$store.state.transactions[this.$store.state.transactions.length - 1];
+    const currencyMap = {
+      Rupee: '₹',
+      Dollar: '$',
+      Euro: '€'
     };
+    return currencyMap[latest.currency] || '₹';
   }
-};
+}
+}
 </script>
 
 <style scoped>

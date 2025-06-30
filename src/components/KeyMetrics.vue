@@ -1,85 +1,92 @@
 <template>
   <div class="card">
     <p class="key-metrics">Key Finance Metrics</p>
-    <div class="food">
-      <p class="heading">Emergency Fund</p>
-      <p class="value">₹30000</p>
-    </div>
-    <div class="food">
-      <p class="save">Savings Rate</p>
-      <p class="save-price">20%</p>
-    </div>
-    <div class="food">
-      <p class="run">Runway</p>
-      <p class="run-price">2.4</p>
+ 
+    <div
+      class="mini-card"
+      v-for="(metric, index) in metrics"
+      :key="index"
+    >
+      <p class="label">{{ metric.label }}</p>
+      <p class="value">{{ metric.value }}</p>
     </div>
   </div>
 </template>
+ 
+<script>
+import { mapGetters } from 'vuex'
 
+export default {
+  name: 'KeyMetrics',
+  computed: {
+    ...mapGetters(['incomeTotal', 'expenseTotal', 'moneySaved']),
+
+    metrics() {
+      const income = this.incomeTotal || 0;
+      const expense = this.expenseTotal || 0;
+      const savings = this.moneySaved || 0;
+
+      return [
+        { label: 'Emergency Fund', value: `₹${savings}` },
+        { 
+          label: 'Savings Rate', 
+          value: income === 0 ? '0%' : `${((savings / income) * 100).toFixed(2)}%` 
+        },
+        { 
+          label: 'Runway', 
+          value: expense === 0 ? '∞' : (savings / expense).toFixed(2) 
+        }
+      ];
+    }
+  }
+}
+</script>
+
+ 
 <style scoped>
-
-
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+ 
 .key-metrics {
   font-size: 22px;
-  padding-left: 19px;
-  margin-top: 0px;
   font-weight: 400;
   color: #c1bfd9;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  text-align: center;
 }
-
-.food {
+ 
+.mini-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+ 
   background: #0d0d0d;
   padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #6e6d7a;
   border-radius: 12px;
+  border: 1px solid #6e6d7a;
   width: 190px;
   height: 30px;
+  margin-top: 0px;
   margin-bottom: 15px;
-  margin-left: 4px;
 }
-
-.heading {
-  margin: 0;
-  padding-left: 40px;
-  margin-top: -8px;
+ 
+.label {
   font-size: 15px;
   color: #ffffff;
-  opacity: 70%;
-}
-
-.save {
+  opacity: 0.7;
   margin: 0;
-  padding-left: 53px;
-  margin-top: -8px;
-  font-size: 15px;
-  color: #ffffff;
-  opacity: 70%;
 }
-
-.run {
-  margin: 0;
-  padding-left: 67px;
-  margin-top: -8px;
-  font-size: 15px;
-  color: #ffffff;
-  opacity: 70%;
-}
-
+ 
 .value {
-  padding-left: 54px;
   font-size: 24px;
-  margin-top: 5px;
   color: #ffffff;
-  opacity: 70%;
-}
-
-.save-price,
-.run-price {
-  padding-left: 74px;
-  font-size: 24px;
-  margin-top: 5px;
-  color: #ffffff;
-  opacity: 70%;
+  opacity: 0.7;
+  margin: 5px 0 0 0;
 }
 </style>

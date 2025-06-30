@@ -3,12 +3,17 @@
     <div class="login-box">
       <h2 class="heading">Login</h2>
 
+      <!-- Show error message -->
+      <p v-if="error" class="error-msg">{{ error }}</p>
+      <p v-if="success" class="success-msg">{{ success }}</p>
+
       <div class="input-wrapper">
         <input
           type="email"
           placeholder="Email"
           v-model="email"
           class="input_box"
+          required
         />
       </div>
 
@@ -17,21 +22,25 @@
           :type="showPassword ? 'text' : 'password'"
           placeholder="Password"
           v-model="password"
-          autocomplete="off"
           class="input_box"
+          required
         />
         <span class="toggle" @click="togglePassword">
           <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
         </span>
       </div>
 
-      <a href="#" class="forgot-password">Forgot Password?</a>
+      <a href="#" class="forgot-password" @click.prevent="handleForgotPassword">
+        Forgot Password?
+      </a>
 
-      <button class="login-btn rotating-border" @click="loginHandler">Login</button>
+      <button type="submit" class="login-btn rotating-border" @click="loginHandler">
+        Login
+      </button>
 
       <div class="separator">or continue with</div>
 
-      <button class="google-btn">
+      <button class="google-btn" @click="loginWithGoogle">
         <img
           :src="require('@/assets/googlelogo.png')"
           alt="Google logo"
@@ -44,6 +53,13 @@
 </template>
 
 <script>
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  sendPasswordResetEmail
+} from "firebase/auth";
+import { auth } from "@/firebase";
 export default {
   name: "LoginForm",
   data() {
@@ -51,16 +67,98 @@ export default {
       email: "",
       password: "",
       showPassword: false,
+      error: "",
+      success: ""
     };
   },
   methods: {
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
-   loginHandler() {
-      this.$router.push({ name: 'dashboard' });
+    async loginHandler() {
+      this.error = "";
+      this.success = "";
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(this.email)) {
+        this.error = "Invalid email format.";
+        return;
+      }
+
+      if (this.password.length < 6) {
+        this.error = "Password must be at least 6 characters.";
+        return;
+      }
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          this.email,
+          this.password
+        );
+     await this.$store.dispatch('setUser', userCredential.user.uid);
+await this.$store.dispatch('fetchTransactions');
+        console.log("Logged in user:", userCredential.user);
+        this.$router.push({ name: "dashboard" });
+      } catch (err) {
+        switch (err.code) {
+          case 'auth/user-not-found':
+            this.error = "No user found with this email.";
+            break;
+          case 'auth/invalid-email':
+            this.error = "Invalid email address.";
+            break;
+          case 'auth/wrong-password':
+            this.error = "Wrong password. Please try again.";
+            break;
+          case 'auth/user-disabled':
+            this.error = "This user has been disabled.";
+            break;
+          default:
+            this.error = "Login failed. Please try again.";
+        }
+      }
+    },
+    async loginWithGoogle() {
+      this.error = "";
+      this.success = "";
+      const provider = new GoogleAuthProvider();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        console.log("Google user:", result.user);
+        this.$router.push({ name: "dashboard" });
+      } catch (err) {
+        this.error = "Google sign-in failed. Please try again.";
+        console.error(err);
+      }
+    },
+    async handleForgotPassword() {
+      this.error = "";
+      this.success = "";
+
+      if (!this.email) {
+        this.error = "Please enter your email to reset your password.";
+        return;
+      }
+
+      try {
+        await sendPasswordResetEmail(auth, this.email);
+        this.success = "Password reset email sent. Please check your inbox.";
+      } catch (err) {
+        switch (err.code) {
+          case 'auth/user-not-found':
+            this.error = "No user found with this email.";
+            break;
+          case 'auth/invalid-email':
+            this.error = "Invalid email address.";
+            break;
+          default:
+            this.error = "Failed to send reset email. Try again.";
+        }
+        console.error(err);
+      }
     }
-  },
+  }
 };
 </script>
 
@@ -89,6 +187,18 @@ export default {
   margin-bottom: 3rem;
   font-size: 46px;
   font-weight: 700;
+}
+
+.error-msg {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+.success-msg {
+  color: #6eff6b;
+  margin-bottom: 1rem;
+  font-size: 14px;
 }
 
 .input_box {
