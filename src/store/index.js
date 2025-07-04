@@ -1,196 +1,3 @@
-// import Vue from 'vue'
-// import Vuex from 'vuex'
-// import createPersistedState from 'vuex-persistedstate'
-// import { db } from '@/firebase'
-// import { doc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
-
-// Vue.use(Vuex)
-
-
-// export default new Vuex.Store({
-//   state: {
-//     transactions: [],
-//     userId: null
-//   },
-//   mutations: {
-//     SET_TRANSACTIONS(state, transactions) {
-//       state.transactions = transactions
-//     },
-//     ADD_TRANSACTION(state, transaction) {
-//       state.transactions.push(transaction)
-//     },
-//     DELETE_TRANSACTION(state, index) {
-//       state.transactions.splice(index, 1)
-//     },
-//     SET_USER_ID(state, uid) {
-//       state.userId = uid
-//     }
-//   },
-//   actions: {
-//     // async fetchTransactions({ commit, state }) {
-//     //   if (!state.userId) return
-
-//     //   const userDocRef = doc(db, 'users', state.userId)
-//     //   const docSnap = await getDoc(userDocRef)
-//     //   if (docSnap.exists()) {
-//     //     const data = docSnap.data()
-//     //     commit('SET_TRANSACTIONS', data.transactions || [])
-//     //   } else {
-//     //     commit('SET_TRANSACTIONS', [])
-//     //   }
-//     // },
-
-//     async addTransaction({ commit, state }, transaction) {
-//       if (!state.userId) {
-//         console.error("Cannot add transaction: userId is null");
-//         return;
-//       }
-
-//       commit('ADD_TRANSACTION', transaction);
-
-//       const userDocRef = doc(db, 'users', state.userId);
-//       await setDoc(userDocRef, {
-//         transactions: arrayUnion(transaction)
-//       }, { merge: true });
-//     },
-
-//     async deleteTransaction({ commit, state }, index) {
-//       if (!state.userId) {
-//         console.error("Cannot delete transaction: userId is null");
-//         return;
-//       }
-
-//       const transactionToDelete = state.transactions[index];
-//       commit('DELETE_TRANSACTION', index);
-
-//       const userDocRef = doc(db, 'users', state.userId);
-//       await updateDoc(userDocRef, {
-//         transactions: arrayRemove(transactionToDelete)
-//       });
-//     },
-
-//     setUser({ commit }, uid) {
-//       commit('SET_USER_ID', uid)
-//     }
-//   },
-//   getters: {
-//     incomeTotal: state =>
-//       state.transactions.filter(t => t.price > 0)
-//         .reduce((sum, t) => sum + Number(t.price), 0),
-
-//     expenseTotal: state =>
-//       state.transactions.filter(t => t.price < 0)
-//         .reduce((sum, t) => sum + Math.abs(t.price), 0),
-
-//     balance: (state, getters) =>
-//       getters.incomeTotal - getters.expenseTotal,
-
-//     moneySaved: (state, getters) =>
-//       getters.balance
-//   },
-//   plugins: [createPersistedState()]
-// })
-
-//working code
-// import Vue from 'vue'
-// import Vuex from 'vuex'
-// import { db } from '@/firebase'
-// import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
-
-// Vue.use(Vuex)
-
-// const getDefaultState = () => ({
-//   transactions: [],
-//   userId: null
-// })
-
-// export default new Vuex.Store({
-//   state: getDefaultState(),
-
-//   mutations: {
-//     SET_TRANSACTIONS(state, transactions) {
-//       state.transactions = transactions
-//     },
-//     ADD_TRANSACTION(state, transaction) {
-//       state.transactions.push(transaction)
-//     },
-//     DELETE_TRANSACTION(state, index) {
-//       state.transactions.splice(index, 1)
-//     },
-//     SET_USER_ID(state, uid) {
-//       state.userId = uid
-//     },
-//     RESET_STATE(state) {
-//       Object.assign(state, getDefaultState())
-//     }
-//   },
-
-//   actions: {
-//     async fetchTransactions({ commit, state }) {
-//       if (!state.userId) return
-
-//       const userDocRef = doc(db, 'users', state.userId)
-//       const docSnap = await getDoc(userDocRef)
-//       if (docSnap.exists()) {
-//         const data = docSnap.data()
-//         commit('SET_TRANSACTIONS', data.transactions || [])
-//       } else {
-//         commit('SET_TRANSACTIONS', [])
-//       }
-//     },
-
-//     async addTransaction({ commit, state }, transaction) {
-//       if (!state.userId) {
-//         console.error("Cannot add transaction: userId is null")
-//         return
-//       }
-
-//       commit('ADD_TRANSACTION', transaction)
-
-//       const userDocRef = doc(db, 'users', state.userId)
-//       await setDoc(userDocRef, {
-//         transactions: arrayUnion(transaction)
-//       }, { merge: true })
-//     },
-
-//     async deleteTransaction({ commit, state }, index) {
-//       if (!state.userId) {
-//         console.error("Cannot delete transaction: userId is null")
-//         return
-//       }
-
-//       const transactionToDelete = state.transactions[index]
-//       commit('DELETE_TRANSACTION', index)
-
-//       const userDocRef = doc(db, 'users', state.userId)
-//       await updateDoc(userDocRef, {
-//         transactions: arrayRemove(transactionToDelete)
-//       })
-//     },
-
-//     setUser({ commit }, uid) {
-//       commit('SET_USER_ID', uid)
-//     }
-//   },
-
-//   getters: {
-//     incomeTotal: state =>
-//       state.transactions.filter(t => t.price > 0)
-//         .reduce((sum, t) => sum + Number(t.price), 0),
-
-//     expenseTotal: state =>
-//       state.transactions.filter(t => t.price < 0)
-//         .reduce((sum, t) => sum + Math.abs(t.price), 0),
-
-//     balance: (state, getters) =>
-//       getters.incomeTotal - getters.expenseTotal,
-
-//     moneySaved: (state, getters) =>
-//       getters.balance
-//   }
-// })
-
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { db } from '@/firebase'
@@ -203,15 +10,28 @@ const getDefaultState = () => ({
   userId: null
 })
 
-// 🔧 Helper function for spending insights
 function getIconForCategory(category) {
   const icons = {
     Food: require('@/assets/Food logo.svg'),
     Rent: require('@/assets/Rent Icon.svg'),
     Travel: require('@/assets/Travel icon.svg'),
     Salary: require('@/assets/Salary Icon.svg'),
+    Education: require('@/assets/education.svg'),
+    Shopping: require('@/assets/shopping.svg'),
+    Health: require('@/assets/health.svg'),
+    Entertainment: require('@/assets/entertainment.svg'),
+    Utilities: require('@/assets/utilities.svg'),
+    Interest: require('@/assets/interest.svg'),
+    "Business Income": require('@/assets/business-income.svg'),
+    Freelance: require('@/assets/freelance.svg'),
+    Investment: require('@/assets/profit.svg'),
+    Taxes: require('@/assets/tax.svg'),
+    Insurance: require('@/assets/insurance.svg'),
+    Gifts: require('@/assets/gift.svg'),
+    Subscriptions: require('@/assets/subscription.svg'),
+    Other: require('@/assets/other.svg')
   };
-  return icons[category] || require('@/assets/default-icon.svg'); // fallback icon
+  return icons[category] || require('@/assets/other.svg')
 }
 
 export default new Vuex.Store({
@@ -226,7 +46,7 @@ export default new Vuex.Store({
     },
     DELETE_TRANSACTION(state, transactionToDelete) {
       state.transactions = state.transactions.filter(
-        t => t !== transactionToDelete
+        t => JSON.stringify(t) !== JSON.stringify(transactionToDelete)
       );
     },
     SET_USER_ID(state, uid) {
@@ -234,7 +54,11 @@ export default new Vuex.Store({
     },
     RESET_STATE(state) {
       Object.assign(state, getDefaultState())
+    },
+    UPDATE_TRANSACTION(state, { index, updatedTransaction }) {
+      Vue.set(state.transactions, index, updatedTransaction);
     }
+
   },
 
   actions: {
@@ -265,21 +89,6 @@ export default new Vuex.Store({
       }, { merge: true })
     },
 
-    // async deleteTransaction({ commit, state }, index) {
-    //   if (!state.userId) {
-    //     console.error("Cannot delete transaction: userId is null")
-    //     return
-    //   }
-
-    //   const transactionToDelete = state.transactions[index]
-    //   commit('DELETE_TRANSACTION', index)
-
-    //   const userDocRef = doc(db, 'users', state.userId)
-    //   await updateDoc(userDocRef, {
-    //     transactions: arrayRemove(transactionToDelete)
-    //   })
-    // },
-
     async deleteTransaction({ commit, state }, transactionToDelete) {
       if (!state.userId) {
         console.error("Cannot delete transaction: userId is null");
@@ -293,8 +102,22 @@ export default new Vuex.Store({
         transactions: arrayRemove(transactionToDelete)
       });
     },
+    async updateTransaction({ commit, state }, { index, updatedTransaction }) {
+      if (!state.userId) {
+        console.error("Cannot update transaction: userId is null");
+        return;
+      }
 
+      commit("UPDATE_TRANSACTION", { index, updatedTransaction });
 
+      const userDocRef = doc(db, "users", state.userId);
+      const updatedTransactions = [...state.transactions];
+      updatedTransactions.splice(index, 1, updatedTransaction);
+
+      await updateDoc(userDocRef, {
+        transactions: updatedTransactions,
+      });
+    },
     setUser({ commit }, uid) {
       commit('SET_USER_ID', uid)
     }
@@ -334,7 +157,7 @@ export default new Vuex.Store({
       const categoryMap = {};
 
       state.transactions.forEach(transaction => {
-        if (transaction.price < 0) { // Only expenses
+        if (transaction.price < 0) {
           const transactionDate = new Date(transaction.date);
           if (
             transactionDate.getMonth() === currentMonth &&
@@ -395,12 +218,10 @@ export default new Vuex.Store({
 
     dailyExpenseOfMonth: (state) => {
       const now = new Date();
-      const currentMonth = now.getMonth(); // 0 = Jan
+      const currentMonth = now.getMonth();
       const currentYear = now.getFullYear();
-
-      // Initialize 30/31/28 days for the current month
       const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-      const dailyTotals = Array(daysInMonth).fill(0); // index 0 = day 1
+      const dailyTotals = Array(daysInMonth).fill(0);
 
       state.transactions.forEach(transaction => {
         if (transaction.price < 0) {
@@ -409,7 +230,7 @@ export default new Vuex.Store({
             date.getMonth() === currentMonth &&
             date.getFullYear() === currentYear
           ) {
-            const day = date.getDate(); // 1 to 31
+            const day = date.getDate();
             dailyTotals[day - 1] += Math.abs(Number(transaction.price));
           }
         }

@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-
 import LoginDashboard from '@/View/Login.vue'
 import Dashboard from '@/View/DashboardView.vue'
 import AnalyticsDashboard from '@/View/AnalyticsDashboard.vue'

@@ -97,7 +97,7 @@ export default {
           this.password
         );
      await this.$store.dispatch('setUser', userCredential.user.uid);
-await this.$store.dispatch('fetchTransactions');
+     await this.$store.dispatch('fetchTransactions');
         console.log("Logged in user:", userCredential.user);
         this.$router.push({ name: "dashboard" });
       } catch (err) {
