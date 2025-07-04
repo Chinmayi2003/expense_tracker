@@ -161,7 +161,7 @@ export default {
         currency: "",
         description: "",
       },
-      categoryOptions: ["Travel", "Food", "Rent", "Salary","shopping","utilities","food orders"],
+      categoryOptions: ["Travel", "Food", "Rent", "Salary","Education","Shopping","Entertainment","Health"],
       modeOptions: ["Debit card", "Credit card", "UPI", "Cash"],
       currencyOptions: ["Rupee"],
     };
@@ -219,6 +219,10 @@ export default {
         Travel: "Travel icon.svg",
         Rent: "Rent Icon.svg",
         Salary: "Salary Icon.svg",
+        Education: "education.svg",
+        Shopping: "shopping.svg",
+        Health: "health.svg",
+        Entertainment: "entertainment.svg"
       };
       return iconMap[category] || "default-icon.svg";
     },

@@ -68,8 +68,8 @@ export default {
     background: #0d0d0d;
     padding: 20px;
     border-radius: 12px;
-    width: 79.2vw;
-    height: 69vh;
+    width: 78.9vw;
+    height: 65vh;
     border: 1px solid #6e6d7a;
     margin: 20px 0 0 10px;
   }

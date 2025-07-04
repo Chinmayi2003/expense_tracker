@@ -26,7 +26,8 @@ export default {
         labels: labels,
         datasets: [{
           data: data,
-          backgroundColor: this.generateColors(data.length)
+          backgroundColor: this.generateColors(data.length),
+          borderWidth: 0
         }]
       },
       options: {
@@ -36,7 +37,10 @@ export default {
           position: 'right',
           labels: {
             fontColor: 'white',
-            fontSize: 12
+            fontSize: 12,
+            boxWidth: 12,       
+            usePointStyle: true,
+            pointStyle: 'circle'
           }
         }
       }
@@ -48,7 +52,6 @@ export default {
         '#9dfc7f', '#5edb87', '#2aa678', '#15745b', '#74C365',
         '#a1c181', '#619b8a', '#3a6351', '#55828b', '#87c38f'
       ];
-      // Repeat colors if needed
       while (colors.length < count) {
         colors.push(...colors);
       }
@@ -57,14 +60,15 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* vertical centering */
-  align-items: center;     /* horizontal centering */
+  justify-content: center;
+  align-items: center;
 }
- 
+
 .title {
   font-size: 22px;
   font-weight: 400;
@@ -73,7 +77,7 @@ export default {
   margin-bottom: 25px;
   margin-top: -10px;
 }
- 
+
 .chart-container {
   height: 240px;
   width: 100%;
@@ -83,3 +87,4 @@ export default {
   align-items: center;
 }
 </style>
+

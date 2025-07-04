@@ -1,19 +1,3 @@
-// // main.js
-// import Vue from 'vue'
-// import App from './App.vue'
-// import store from './store'
-// import router from './router'
-// import { auth } from "./firebase";
-
-// Vue.config.productionTip = false
-// Vue.prototype.$auth = auth;
-// new Vue({
-//   store,
-//   router,
-//   render: h => h(App)
-// }).$mount('#app')
-
-
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
