@@ -433,10 +433,6 @@ export default {
     margin: 0;
   }
 
-  .no-spinner {
-    -moz-appearance: textfield;
-  }
-
   .expense-form {
     margin-top: 40px;
   }
