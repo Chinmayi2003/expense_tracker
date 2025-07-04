@@ -209,7 +209,7 @@ export default {
     }
   },
   watch: {
-    "form.transactionType"(newVal, oldVal) {
+    "form.transactionType"() {
       if (
         this.form.category &&
         !this.currentCategoryOptions.includes(this.form.category)
