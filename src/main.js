@@ -30,5 +30,6 @@ Vue.use(Chartkick.use(Chart))
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

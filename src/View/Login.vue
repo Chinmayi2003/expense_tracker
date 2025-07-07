@@ -18,7 +18,7 @@
           required
         />
       </div>
-
+ 
       <div class="password-wrapper input-wrapper">
         <input
           :type="showPassword ? 'text' : 'password'"
@@ -71,7 +71,7 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import {
   getAuth,
@@ -211,7 +211,7 @@ export default {
   }
 };
 </script>
-
+ 
 <style scoped>
 .login-container {
   background-image: url("@/assets/wallpaper_expense.png");
@@ -220,7 +220,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
+ 
 .login-box {
   background-color: #161a20;
   padding: 2rem;
@@ -231,7 +231,7 @@ export default {
   color: #fff;
   text-align: center;
 }
-
+ 
 .heading {
   margin-top: 0.1rem;
   margin-bottom: 2rem;
@@ -264,14 +264,14 @@ export default {
   margin-bottom: 0.8rem;
   cursor: text;
 }
-
+ 
 .input-wrapper {
   position: relative;
   margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
 }
-
+ 
 .input-wrapper::before {
   content: "";
   position: absolute;
@@ -281,13 +281,13 @@ export default {
   z-index: 1;
   opacity: 0;
 }
-
+ 
 .input-wrapper:hover::before,
 .input-wrapper:focus-within::before {
   animation: rotateBorder 1s linear;
   opacity: 1;
 }
-
+ 
 .input-wrapper::after {
   content: "";
   position: absolute;
@@ -296,7 +296,7 @@ export default {
   border-radius: 6px;
   z-index: 2;
 }
-
+ 
 .input-wrapper input {
   position: relative;
   z-index: 3;
@@ -309,7 +309,7 @@ export default {
   font-size: 14px;
   border-radius: 6px;
 }
-
+ 
 @keyframes rotateBorder {
   0% {
     transform: rotate(0deg);
@@ -318,7 +318,7 @@ export default {
     transform: rotate(360deg);
   }
 }
-
+ 
 .toggle {
   position: absolute;
   right: 16px;
@@ -327,7 +327,7 @@ export default {
   color: #999;
   z-index: 100;
 }
-
+ 
 .forgot-password {
   display: block;
   font-size: 12px;
@@ -338,7 +338,7 @@ export default {
   padding-right: 7px;
   z-index: 3;
 }
-
+ 
 .login-btn {
   background-color: #354a4c;
   color: white;
@@ -352,18 +352,18 @@ export default {
   margin-bottom: 1rem;
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
-
+ 
 .login-btn:hover {
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 5px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
-
+ 
 .separator {
   font-size: 14px;
   margin-bottom: 1rem;
   color: #888;
   padding-top: 10px;
 }
-
+ 
 .google-btn {
   background-color: transparent;
   color: #fff;
@@ -378,12 +378,12 @@ export default {
   padding-top: 5px;
   cursor: default;
 }
-
+ 
 .google-btn img,
 .google-btn p {
   cursor: pointer;
 }
-
+ 
 .google-btn img {
   height: 25px;
   margin-right: 10px;
