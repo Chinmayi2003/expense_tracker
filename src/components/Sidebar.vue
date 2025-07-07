@@ -3,20 +3,21 @@
     <div class="nav-elements">
       <div class="profile-header">
         <img :src="require('@/assets/Profile-icon.svg')" alt="Profile Icon" class="profile-icon" />
-        <h2 class="profile-name">John</h2>
+        <h2 class="profile-name">{{ userName.slice(0,4) }}</h2>
       </div>
 
-      <div class="nav-icons" v-for="(item, index) in navItems" :key="index" @click="item.func">
+      <div
+        class="nav-icons"
+        v-for="(item, index) in navItems"
+        :key="index"
+        @click="handleClick(item)"
+      >
         <img
           :src="require(`@/assets/${item.icon}`)"
           :alt="item.label"
           :id="item.id"
-          :style="{
-          width: item.width,
-          height: item.height
-          }"
+          :style="{ width: item.width, height: item.height }"
         />
-
         <div class="menu-item" :style="{ marginLeft: item.marginLeft }">
           {{ item.label }}
         </div>
@@ -30,57 +31,68 @@
 </template>
 
 <script>
+
+
 export default {
   name: "MySidebar1",
+  props: {
+    userName: String
+  },
   data() {
     return {
+      showLogoutPopup: false,
       navItems: [
         {
           label: "Dashboard",
           icon: "Dashboard-icon.svg",
-          class: "nav-icon",
           marginLeft: "14px",
           width: "23px",
           height: "23px",
-          func: () => this.$router.push({ name: 'dashboard' })
+          route: "dashboard"
         },
         {
           label: "Analytics",
           icon: "Analytics-icon.svg",
-          class: "nav-icon",
           id: "analytics-icon",
           marginLeft: "12.5px",
           width: "28.5px",
-          func: () => this.$router.push({ name: 'analytics' })
+          route: "analytics"
         },
         {
           label: "Settings",
           icon: "settings-icon.svg",
-          class: "nav-icon",
           marginLeft: "14px",
           width: "24.8px",
           height: "26px",
-          func: () => this.$router.push({ name: 'setting' })
+          route: "setting"
         },
         {
           label: "Logout",
           icon: "Logout-icon.svg",
-          class: "nav-icon",
+          id: "logout-icon",
           marginLeft: "15px",
           width: "22px",
-          id: "logout-icon",
           height: "21px",
-          func: () => this.$router.push({ name: 'login' })
+          isLogout: true
         }
       ]
     };
+  },
+  methods: {
+    handleClick(item) {
+      if (item.isLogout) {
+        this.$emit('logoutPopup', true)
+      } else {
+        this.$router.push({ name: item.route });
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
   .sidebar {
-    width: 145px;
+    width: 11.7vw;
     height: 93.9vh;
     background-color: #0d0d0d;
     padding: 20px;
@@ -88,17 +100,6 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     position: sticky;
-}
-
-.sidebar {
-  width: 145px;
-  background-color: #0d0d0d;
-  height: 93.9vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: sticky;
 }
   .nav-elements {
     padding-left: 10px;
@@ -122,10 +123,11 @@ export default {
   }
 
   .profile-name {
-    font-size: 19.5px;
-    font-weight: bold;
-    margin: 34px 0 7px -2.5px;
-    width: 10px;
+  font-size: 19.5px;
+  font-weight: bold;
+  margin: 34px 0 7px -2.5px;
+  max-width: 60px; 
+  white-space: nowrap;
   }
 
   .nav-icons {

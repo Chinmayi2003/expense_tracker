@@ -3,12 +3,19 @@
     <div class="login-box">
       <h2 class="heading">Login</h2>
 
+      <!-- Reserved space for error/success messages -->
+      <div class="message-container">
+        <p v-show="error" class="error-msg">{{ error }}</p>
+        <p v-show="success" class="success-msg">{{ success }}</p>
+      </div>
+
       <div class="input-wrapper">
         <input
           type="email"
           placeholder="Email"
           v-model="email"
           class="input_box"
+          required
         />
       </div>
 
@@ -17,33 +24,63 @@
           :type="showPassword ? 'text' : 'password'"
           placeholder="Password"
           v-model="password"
-          autocomplete="off"
           class="input_box"
+          required
         />
         <span class="toggle" @click="togglePassword">
           <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
         </span>
       </div>
 
-      <a href="#" class="forgot-password">Forgot Password?</a>
+      <a href="#" class="forgot-password" @click.prevent="handleForgotPassword">
+        Forgot Password?
+      </a>
 
-      <button class="login-btn rotating-border" @click="loginHandler">Login</button>
+      <button type="submit" class="login-btn rotating-border" @click="loginHandler">
+        Login
+      </button>
 
-      <div class="separator">or continue with</div>
+      <div class="separator">or</div>
 
-      <button class="google-btn">
-        <img
-          :src="require('@/assets/googlelogo.png')"
-          alt="Google logo"
-          class="google-logo"
-        />
+      <button class="google-btn" @click="loginWithGoogle">
+        <img :src="require('@/assets/googlelogo.png')" alt="Google logo" class="google-logo" />
         <p>Sign in with Google</p>
       </button>
+    </div>
+
+    <!-- Password Reset modal -->
+    <div class="modal-overlay" v-if="showResetPopup">
+      <div class="reset-popup-card">
+        <h3>Reset Password</h3>
+        <p class="popup-info">Enter your email to receive a reset link.</p>
+        <input
+          type="email"
+          v-model="resetEmail"
+          placeholder="Enter email"
+          class="input_box popup-input"
+        />
+        <div class="message-container">
+        <p v-if="popupError" class="error-msg">{{ popupError }}</p>
+        <p v-if="popupSuccess" class="success-msg">{{ popupSuccess }}</p>
+        </div>
+        <div class="popup-buttons">
+          <button @click="sendResetEmail" class="reset-btn">Send Reset Link</button>
+          <button @click="closeResetPopup" class="reset-btn">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+
 export default {
   name: "LoginForm",
   data() {
@@ -51,16 +88,127 @@ export default {
       email: "",
       password: "",
       showPassword: false,
+      error: "",
+      success: "",
+      showResetPopup: false,
+      resetEmail: "",
+      popupError: "",
+      popupSuccess: ""
     };
   },
   methods: {
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
-   loginHandler() {
-      this.$router.push({ name: 'dashboard' });
+    async loginHandler() {
+      const auth=getAuth();
+      this.error = "";
+      this.success = "";
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if(this.email=='' && this.password=='') {
+        this.error="Enter login credentials.";
+        return
+      }
+
+      if(this.email=='') {
+        this.error="Enter email.";
+        return
+      }
+
+      if (!emailRegex.test(this.email)) {
+        this.error = "Invalid email format.";
+        return;
+      }
+      
+      if(this.password=='') {
+        this.error="Enter password.";
+        return;
+      }
+
+      if (this.password.length < 6) {
+        this.error = "Password must be at least 6 characters.";
+        return;
+      }
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          this.email.trim(),
+          this.password.trim()
+        );
+        console.log("Logged in user:", userCredential.user);
+        this.$router.push({ name: "dashboard" });
+      } catch (err) {
+        console.error("Login error code:", err.code, err.message);
+        switch (err.code) {
+          case 'auth/invalid-credential':
+            this.error = "Invalid Credential.";
+            break;
+          case 'auth/invalid-email':
+            this.error = "Invalid email address.";
+            break;
+          case 'auth/wrong-password':
+            this.error = "Wrong password. Please try again.";
+            break;
+          case 'auth/user-disabled':
+            this.error = "This user has been disabled.";
+            break;
+          default:
+            this.error = "Login failed. Please try again.";
+        }
+      }
+    },
+    async loginWithGoogle() {
+      this.error = "";
+      this.success = "";
+      const auth=getAuth();
+      const provider = new GoogleAuthProvider();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        console.log("Google user:", result.user);
+        this.$router.push({ name: "dashboard" });
+      } catch (err) {
+        this.error = "Google sign-in failed. Please try again.";
+        console.error(err);
+      }
+    },
+    handleForgotPassword() {
+      this.resetEmail = "";
+      this.popupError = "";
+      this.popupSuccess = "";
+      this.showResetPopup = true;
+    },
+    closeResetPopup() {
+      this.showResetPopup = false;
+    },
+    async sendResetEmail() {
+      const auth=getAuth();
+      this.popupError = "";
+      this.popupSuccess = "";
+
+      if (!this.resetEmail) {
+        this.popupError = "Email is required.";
+        return;
+      }
+
+      try {
+        await sendPasswordResetEmail(auth, this.resetEmail);
+        this.popupSuccess = "Reset link sent! Check your email.";
+      } catch (err) {
+        switch (err.code) {
+          case 'auth/user-not-found':
+            this.popupError = "No user found with this email.";
+            break;
+          case 'auth/invalid-email':
+            this.popupError = "Invalid email address.";
+            break;
+          default:
+            this.popupError = "Something went wrong. Try again.";
+        }
+      }
     }
-  },
+  }
 };
 </script>
 
@@ -86,9 +234,28 @@ export default {
 
 .heading {
   margin-top: 0.1rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   font-size: 46px;
   font-weight: 700;
+}
+
+.message-container {
+  min-height: 24px;
+}
+
+.error-msg,
+.success-msg {
+  font-size: 14px;
+  margin: 0;
+  transition: opacity 0.2s ease;
+}
+
+.error-msg {
+  color: #ff6b6b;
+}
+
+.success-msg {
+  color: #6eff6b;
 }
 
 .input_box {
@@ -109,7 +276,7 @@ export default {
   content: "";
   position: absolute;
   inset: -2px;
-  background: conic-gradient(from 0deg, #5dd1c0, #401d50, #354a4c, #2c8f87);
+  background: conic-gradient(from 0deg, #478a80, #401d50, #354a4c, #2c8f87);
   border-radius: 10px;
   z-index: 1;
   opacity: 0;
@@ -220,5 +387,74 @@ export default {
 .google-btn img {
   height: 25px;
   margin-right: 10px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(13, 13, 13, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 101;
+}
+
+.reset-popup-card {
+  background-color: #161a20;
+  padding: 16px;
+  border-radius: 16px;
+  width: 354px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.reset-popup-card h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.popup-info {
+  font-size: 14px;
+  margin-bottom: 1rem;
+  color: #ccc;
+}
+
+.popup-input {
+  width: 90%;
+  margin-bottom: 1rem;
+  background: #1d2b3b;
+  border-radius: 5px;
+  outline: none;
+  cursor: text;
+  color: white;
+  border: none;
+}
+
+.popup-input:hover {
+  border: 1px solid #aaa;
+}
+
+.popup-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.reset-btn {
+  background-color: #1d2b3b;
+  padding: 10px;
+  color: white;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+}
+
+.reset-btn:hover {
+  border: 1px solid #aaa;
 }
 </style>
