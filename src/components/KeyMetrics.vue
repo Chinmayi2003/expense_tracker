@@ -1,155 +1,206 @@
 <template>
-  <div class="card">
-    <p class="key-metrics">Key Finance Metrics</p>
-
-    <div
-      class="mini-card"
-      v-for="(metric, index) in metrics"
-      :key="index"
-    >
-      <p class="label">
-        {{ metric.label }}
+<div class="card">
+    <p class="key-metrics">
+        Key Finance Metrics
         <span class="info-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#aaa" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="none" />
-            <text x="12" y="16" text-anchor="middle" font-size="12" fill="white">i</text>
-          </svg>
-          <span class="tooltip">
-            {{ metric.tooltip }}
-          </span>
+            <svg width="18" height="18" viewBox="0 0 24 19" fill="#aaa" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="none" />
+                <text x="12" y="16" text-anchor="middle" font-size="12" fill="white">i</text>
+            </svg>
+            <span class="tooltip">
+                <strong>Emergency Fund:</strong> Total savings from previous months plus current balance.
+                <br />
+                <strong>Savings Rate:</strong> Portion of income remaining after all expenses.
+                <br />
+                <strong>Runway:</strong> Number of months you can survive without income using your savings.
+            </span>
         </span>
-      </p>
-      <p class="value">{{ metric.value }}</p>
+    </p>
+
+    <div class="mobile-mini-card">
+        <div class="mini-card" v-for="(metric, index) in metrics" :key="index">
+            <p class="label">
+                {{ metric.label }}
+            </p>
+            <p class="value">{{ metric.value }}</p>
+        </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 
 export default {
-  name: 'KeyMetrics',
-  computed: {
-    ...mapGetters(['incomeTotal', 'expenseTotal', 'moneySaved']),
+    name: 'KeyMetrics',
+    computed: {
+        ...mapGetters(['incomeTotal', 'expenseTotal', 'moneySaved']),
 
-    metrics() {
-      const income = Math.max(this.incomeTotal || 0, 0);
-      const expense = Math.max(this.expenseTotal || 0, 0);
-      const savings = Math.max(this.moneySaved || 0, 0);
+        metrics() {
+            const income = Math.max(this.incomeTotal || 0, 0);
+            const expense = Math.max(this.expenseTotal || 0, 0);
+            const savings = Math.max(this.moneySaved || 0, 0);
 
-      return [
-        {
-          label: 'Emergency Fund',
-          value: `₹${savings}`,
-          tooltip: 'Total savings accumulated from previous months plus the current balance.' 
-        },
-        {
-          label: 'Savings Rate',
-          value: income === 0 ? '0%' : `${Math.max((savings / income) * 100, 0).toFixed(2)}%`,
-          tooltip: 'The portion of your income remaining after covering all expenses.' 
-        },
-        {
-          label: 'Runway',
-          value: expense === 0 ? '∞' : Math.max((savings / expense), 0).toFixed(2),
-          tooltip: 'The number of months you can sustain without income using your emergency fund, based on past expenses.' 
+            return [{
+                    label: 'Emergency Fund',
+                    value: `₹${savings}`
+                },
+                {
+                    label: 'Savings Rate',
+                    value: income === 0 ? '0%' : `${Math.max((savings / income) * 100, 0).toFixed(2)}%`
+                },
+                {
+                    label: 'Runway',
+                    value: expense === 0 ? '∞' : Math.max((savings / expense), 0).toFixed(2)
+                }
+            ];
         }
-      ];
     }
-  }
 }
 </script>
 
 <style scoped>
 .card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .key-metrics {
-  font-size: 22px;
-  font-weight: 400;
-  color: #c1bfd9;
-  margin-top: 5px;
-  margin-bottom: 20px;
-  text-align: center;
+    font-size: 22px;
+    font-weight: 400;
+    color: #c1bfd9;
+    margin-top: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
 }
 
 .mini-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  background: #0d0d0d;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #6e6d7a;
-  width: 190px;
-  height: 30px;
-  margin-top: 0px;
-  margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(13, 13, 13, 0.7);
+    padding: 11px;
+    border-radius: 12px;
+    border: 1px solid #6e6d7a;
+    width: 220px;
+    height: auto;
+    margin-top: 0px;
+    margin-bottom: 15px;
 }
 
 .label {
-  font-size: 15px;
-  color: #ffffff;
-  opacity: 0.7;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
+    font-size: 15px;
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .value {
-  font-size: 24px;
-  color: #ffffff;
-  opacity: 0.7;
-  margin: 5px 0 0 0;
+    font-size: 24px;
+    color: #ffffff;
+    margin: 5px 0 0 0;
 }
 
 .info-icon {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .tooltip {
-  visibility: hidden;
-  width: 180px;
-  background-color: #333;
-  color: #fff;
-  text-align: left;
-  border-radius: 6px;
-  padding: 8px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  font-size: 12px;
-  line-height: 1.4;
-  white-space: normal;
+    visibility: hidden;
+    width: 350px;
+    background-color: #000;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 9999;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: normal;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    mix-blend-mode: normal;
 }
 
 .tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #333 transparent transparent transparent;
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
 }
 
 .info-icon:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media screen and (max-width: 600px) {
+
+  .mini-card {
+      display: flex;
+      flex-direction: row;
+      border-radius: 6px;
+      padding: 4px;
+      width: 100%;
+      margin-right: 3px;
+      align-items: center;
+  }
+
+  .mobile-mini-card {
+      width: 80%;
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+      margin-left: -90px;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+  }
+
+  .label {
+      font-size: 8px;
+  }
+
+  .value {
+      font-size: 10px;
+  }
+
+  .key-metrics {
+      font-size: 22px;
+      flex-direction: row;
+      gap: 4px;
+      margin-top: 0px;
+  }
+
+  .tooltip {
+      width: 90vw;
+      font-size: 8px;
+      padding: 8px;
+  }
 }
 </style>

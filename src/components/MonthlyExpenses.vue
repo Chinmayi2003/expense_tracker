@@ -1,90 +1,122 @@
 <template>
-  <div class="card">
+<div class="card">
     <h3 class="title">Monthly Expenses</h3>
     <div class="chart-container">
-      <canvas ref="pieChart"></canvas>
+        <canvas ref="pieChart"></canvas>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
 import Chart from 'chart.js';
-import { mapGetters } from 'vuex';
+import {
+    mapGetters
+} from 'vuex';
 
 export default {
-  name: 'MonthlyExpenses',
-  computed: {
-    ...mapGetters(['monthlyExpenseByCategory'])
-  },
-  mounted() {
-    const labels = this.monthlyExpenseByCategory.map(item => item.category);
-    const data = this.monthlyExpenseByCategory.map(item => item.amount);
+    name: 'MonthlyExpenses',
+    computed: {
+        ...mapGetters(['monthlyExpenseByCategory'])
+    },
+    mounted() {
+        const labels = this.monthlyExpenseByCategory.map(item => item.category);
+        const data = this.monthlyExpenseByCategory.map(item => item.amount);
+        const backgroundColors = this.assignColors(labels);
 
-    new Chart(this.$refs.pieChart, {
-      type: 'pie',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: data,
-          backgroundColor: this.generateColors(data.length),
-          borderWidth: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          position: 'right',
-          labels: {
-            fontColor: 'white',
-            fontSize: 12,
-            boxWidth: 12,       
-            usePointStyle: true,
-            pointStyle: 'circle'
-          }
+        new Chart(this.$refs.pieChart, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'right',
+                    labels: {
+                        fontColor: 'white',
+                        fontSize: 12,
+                        boxWidth: 7,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                }
+            }
+        });
+    },
+    methods: {
+        assignColors(categories) {
+            const colorMap = {
+                food: '#9dfc7f',
+                rent: '#5edb87',
+                travel: '#2aa678',
+                utilities: '#15745b',
+                shopping: '#74C365',
+                groceries: '#a1c181',
+                entertainment: '#619b8a',
+                healthcare: '#3a6351',
+                education: '#55828b',
+                subscriptions: '#87c38f',
+                insurance: '#3a86ff',
+                investments: '#8338ec',
+                miscellaneous: '#ff006e',
+                others: '#fb5607'
+            };
+
+            return categories.map(cat =>
+                colorMap[cat.toLowerCase()] || '#999'
+            );
         }
-      }
-    });
-  },
-  methods: {
-    generateColors(count) {
-      const colors = [
-        '#9dfc7f', '#5edb87', '#2aa678', '#15745b', '#74C365',
-        '#a1c181', '#619b8a', '#3a6351', '#55828b', '#87c38f'
-      ];
-      while (colors.length < count) {
-        colors.push(...colors);
-      }
-      return colors.slice(0, count);
     }
-  }
 };
 </script>
 
 <style scoped>
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .title {
-  font-size: 22px;
-  font-weight: 400;
-  color: #C1BFD9;
-  text-align: center;
-  margin-bottom: 25px;
-  margin-top: -10px;
+    font-size: 22px;
+    font-weight: 400;
+    color: #C1BFD9;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: -10px;
 }
 
 .chart-container {
-  height: 240px;
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: 240px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+    .title {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    .chart-container {
+        height: auto;
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .card {
+        padding: 10px 0;
+    }
 }
 </style>
-

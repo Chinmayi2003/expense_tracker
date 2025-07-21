@@ -1,13 +1,13 @@
 <template>
-  <div class="main-content">
+<div class="main-content">
     <p class="title">Analytics</p>
     <div class="grid">
-      <SpendingInsights class="spending-card" />
-      <KeyMetrics class="keymatrics-card" />
-      <MonthlyExpenses class="monthly-card" />
+        <SpendingInsights class="spending-card" />
+        <KeyMetrics class="keymatrics-card" />
+        <MonthlyExpenses class="monthly-card" />
     </div>
     <DailyExpenses class="daily-card" />
-  </div>
+</div>
 </template>
 
 <script>
@@ -17,8 +17,13 @@ import MonthlyExpenses from "@/components/MonthlyExpenses.vue";
 import DailyExpenses from "@/components/DailyExpenses.vue";
 
 export default {
-  name: 'AnalyticsDash',
-  components: { SpendingInsights, KeyMetrics, MonthlyExpenses, DailyExpenses },
+    name: 'AnalyticsDash',
+    components: {
+        SpendingInsights,
+        KeyMetrics,
+        MonthlyExpenses,
+        DailyExpenses
+    },
 }
 </script>
 
@@ -29,11 +34,17 @@ export default {
     margin-left: 10px;
     font-size: 35px;
     font-weight: 500;
-  }
-  .grid {
+}
+
+.mobile-header {
+    display: none;
+}
+
+.grid {
     display: flex;
     gap: 20px;
-  }
+    width: 101%;
+}
 
 .spending-card {
     background: #0d0d0d;
@@ -43,9 +54,9 @@ export default {
     width: 20vw;
     height: 23.5vw;
     margin-left: 10px;
-  }
+}
 
-  .keymatrics-card {
+.keymatrics-card {
     background: #0d0d0d;
     padding: 20px;
     border-radius: 10px;
@@ -53,32 +64,128 @@ export default {
     border-radius: 12px;
     width: 20vw;
     height: 23.5vw;
-  }
+}
 
-  .monthly-card {
+.monthly-card {
     background: #0d0d0d;
     padding: 20px;
     border-radius: 12px;
     border: 1px solid #6e6d7a;
-    width: 30vw;
+    width: 43%;
     height: auto;
-  }
+}
 
-  .daily-card {
+.daily-card {
     background: #0d0d0d;
     padding: 20px;
     border-radius: 12px;
-    width: 78.9vw;
-    height: 65vh;
+    width: 96.2%;
+    height: 69vh;
     border: 1px solid #6e6d7a;
     margin: 20px 0 0 10px;
-  }
-  
-  .main-content {
+    margin-bottom: 50px;
+}
+
+.main-content {
     padding: 20px;
     width: 100%;
-    height: 93vh;
+    height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-  }
+    display: block;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #5a5a5a transparent;
+}
+
+.scroll {
+    display: block;
+    max-height: 220px;
+    overflow-y: auto;
+    width: 1074px;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #5a5a5a transparent;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 1px;
+}
+
+@media (max-width:600px) {
+    .title {
+        display: none;
+    }
+
+    .dashboard-header {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+        margin-left: 6px;
+    }
+
+    .user-icon {
+        padding-bottom: 20px;
+        height: 65px;
+    }
+
+    .username {
+        padding-left: 6px;
+        padding-top: 30px;
+        font-size: 25px;
+    }
+
+    .grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 101%;
+    }
+
+    .spending-card {
+        background: #0d0d0d;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid #6e6d7a;
+        width: 80vw;
+        height: 45.5vw;
+        margin-left: 12px;
+    }
+
+    .keymatrics-card {
+        background: #0d0d0d;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #6e6d7a;
+        border-radius: 12px;
+        width: 76vw;
+        height: 15vw;
+        margin-left: 10px;
+    }
+
+    .monthly-card {
+        background: #0d0d0d;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #6e6d7a;
+        width: 83%;
+        margin-left: 10px;
+        height: auto;
+    }
+
+    .daily-card {
+        background: #0d0d0d;
+        padding: 20px;
+        border-radius: 12px;
+        width: 84%;
+        height: 45%;
+        border: 1px solid #6e6d7a;
+        margin: 20px 0 0 10px;
+        margin-bottom: 120px;
+    }
+}
 </style>
