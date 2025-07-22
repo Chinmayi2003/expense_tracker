@@ -77,7 +77,7 @@ export default {
 .input-container input {
   width: 87%;
   padding: 0.5rem;
-  padding-right: 35px; /* space for eye icon */
+  padding-right: 35px; 
   background: #222;
   border: 1px solid #444;
   border-radius: 4px;
@@ -123,4 +123,5 @@ button:hover {
 .cancel-btn:hover {
   background-color: #b22222;
 }
+
 </style>

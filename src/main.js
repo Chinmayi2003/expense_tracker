@@ -5,13 +5,12 @@ import "vue-select/dist/vue-select.css"
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import router from './router.js' 
-
+import store from './store'
 
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
-
 const firebaseConfig = {
-  apiKey: "AIzaSyDC24MyrH1SEEs8dCDbGkhFixiVQsKJQXY",
+  apiKey: process.env.VUE_APP_API_KEY,
   authDomain: "expense-tracker-634e8.firebaseapp.com",
   projectId: "expense-tracker-634e8",
   storageBucket: "expense-tracker-634e8.appspot.com",
@@ -33,3 +32,5 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+

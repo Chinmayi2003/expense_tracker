@@ -84,7 +84,7 @@ export default {
 }
 
 .form-card input {
-  width: 86%;
+  width: 83%;
   padding: 0.5rem;
   padding-right: 2rem;
   background-color: #222;
