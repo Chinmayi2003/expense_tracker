@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container scroll">
     <div class="settings-content">
       <SnackBar
         :show="popup.show"
@@ -47,8 +47,8 @@
             <SettingOptions :optionType="'Phone'"
             :leftIconPath="require('@/assets/phone.svg')" :leftIconAttr="'phone'"
             :label="'Change Phone Number'" :inputFieldList="[
-              { type: 'number', placeholder: 'Current Phone number'},
-              { type: 'number', placeholder: 'New Phone Number'}
+              { type: 'text', placeholder: 'Current Phone number'},
+              { type: 'text', placeholder: 'New Phone Number'}
             ]" :isGoogleUser="isGoogleUser" @saveFields="({type, value}) => saveForm(type, value)"
               :isExapanded="activeForm === 'phone'"
               @toggle="toggleForm('phone')"/>
@@ -69,7 +69,7 @@
         <p class="sub-title">Contact Us</p>
         <ul class="details">
           <li>+91 4567880000</li>
-          <li><a href="#">admin@gmail.com</a></li>
+          <li><a href="#" class="email-address">admin@gmail.com</a></li>
         </ul>
       </section>
     </div>
@@ -283,6 +283,29 @@ export default {
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.scroll {
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+  scrollbar-width: thin; 
+  scrollbar-color: #888 transparent; 
+}
+
+.scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #888;  
+  border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
  
 ul {
   list-style: none;
@@ -337,7 +360,7 @@ li {
   cursor: pointer;
 }
  
-.notifications .sub-title{
+.sub-title{
   margin-bottom: 0.5rem;
 }
  
@@ -347,7 +370,7 @@ li {
   padding-left: 2rem;
 }
  
-.details a {
+.email-address {
   color: #439bc4;
 }
 

@@ -24,6 +24,7 @@
 
 <script>
 import SettingsFormCard from "@/components/FormCard.vue";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 export default {
   name: "SettingsOptions",
   components: { SettingsFormCard },
@@ -66,7 +67,7 @@ export default {
       showForm: false,
       showPasswordPrompt: false,
       pendingEmailChange: null,
-      isGoogleUser: false,
+      // isGoogleUser: false,
       popup: {
         show: false,
         message: "",
