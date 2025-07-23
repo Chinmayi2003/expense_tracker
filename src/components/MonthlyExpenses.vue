@@ -102,6 +102,24 @@ export default {
     align-items: center;
 }
 
+@media (min-width: 601px) and (max-width: 1024px) {
+    .title {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .chart-container {
+        height: 47vh;
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .card {
+        padding: 10px 0;
+    }
+  }
+
 @media screen and (max-width: 600px) {
     .title {
         font-size: 22px;
@@ -111,7 +129,7 @@ export default {
     .chart-container {
         height: auto;
         width: 100%;
-        max-width: 100%;
+        max-width: 150%;
         padding: 10px;
     }
 

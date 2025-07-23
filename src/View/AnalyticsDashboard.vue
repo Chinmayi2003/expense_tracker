@@ -114,6 +114,7 @@ export default {
     width: 1px;
 }
 
+
 @media (max-width:600px) {
     .title {
         display: none;
@@ -151,8 +152,91 @@ export default {
         padding: 10px;
         border-radius: 12px;
         border: 1px solid #6e6d7a;
-        width: 80vw;
+        width: 85vw;
         height: 45.5vw;
+        margin-left: 0px;
+    }
+
+    .keymatrics-card {
+        background: #0d0d0d;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #6e6d7a;
+        border-radius: 12px;
+        width: 80vw;
+        height: 19vw;
+        margin-left: 0px;
+    }
+
+    .monthly-card {
+        background: #0d0d0d;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #6e6d7a;
+        width: 80.5vw;
+        margin-left: 10px;
+        height: auto;
+        margin-left: 0px;
+    
+    }
+
+    .daily-card {
+        background: #0d0d0d;
+        padding: 20px;
+        border-radius: 12px;
+        width: 80.5vw;
+        height: 45%;
+        border: 1px solid #6e6d7a;
+        margin: 20px 0 0 10px;
+        margin-bottom: 100px;
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: 605px) and (max-width: 1024px) {
+    .title {
+        font-size: 30px;
+    }
+
+    .main-content {
+
+      max-height: 100%;
+    }
+
+    .dashboard-header {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+        margin-left: 6px;
+    }
+
+    .user-icon {
+        padding-bottom: 20px;
+        height: 65px;
+    }
+
+    .username {
+        padding-left: 6px;
+        padding-top: 30px;
+        font-size: 25px;
+    }
+
+    .grid {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        width: 101%;
+    }
+
+    .spending-card {
+        background: #0d0d0d;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid #6e6d7a;
+        width: 25vw;
+        height: 30vw;
         margin-left: 12px;
     }
 
@@ -162,8 +246,8 @@ export default {
         border-radius: 10px;
         border: 1px solid #6e6d7a;
         border-radius: 12px;
-        width: 76vw;
-        height: 15vw;
+        width: 21vw;
+        height: 58vh;
         margin-left: 10px;
     }
 
@@ -172,7 +256,8 @@ export default {
         padding: 20px;
         border-radius: 12px;
         border: 1px solid #6e6d7a;
-        width: 83%;
+        width: 25vw;
+        height: 20vh;
         margin-left: 10px;
         height: auto;
     }
@@ -181,11 +266,13 @@ export default {
         background: #0d0d0d;
         padding: 20px;
         border-radius: 12px;
-        width: 84%;
-        height: 45%;
+        width: 76.5vw;
+        height: 75vh;
         border: 1px solid #6e6d7a;
         margin: 20px 0 0 10px;
-        margin-bottom: 120px;
+        margin-bottom: 70px;
     }
-}
+
+  }
+
 </style>

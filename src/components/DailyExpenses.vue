@@ -158,6 +158,36 @@ export default {
     height: 446px;
 }
 
+@media (min-width: 601px) and (max-width: 1024px) {
+  .daily-expenses {
+      font-size: 18px;
+      padding-left: 12px;
+      align-items: center;
+  }
+
+  .bar-graph-dimensions {
+      width: 500px;
+      height: auto;
+  }
+
+  canvas {
+      width: 100%;
+      height: 50%;
+  }
+
+  .bar-graph-dimensions {
+      width: 100px;
+      height: 46px;
+  }
+
+  canvas {
+      display: block;
+      width: 790px !important;
+      height: 350px !important;
+      margin: auto;
+  }
+
+}
 @media screen and (max-width: 600px) {
   .daily-expenses {
       font-size: 18px;

@@ -132,6 +132,63 @@ export default {
     padding-left: 35px;
 }
 
+@media (min-width: 601px) and (max-width: 1024px) {
+    .spending {
+        font-size: 20px;
+        font-weight: 400;
+        margin-top: 0px;
+        margin-bottom: 20px;
+        color: #c1bfd9;
+        text-align: center;
+    }
+
+    .items-grid {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        gap: 20px;
+        justify-items: center;
+    }
+
+    .item {
+        max-width: 140px;
+        width: 100%;
+        margin-bottom: 0px;
+        align-items: center;
+        width: 100%;
+        max-width: 320px;
+        margin-right: -50px;
+    }
+
+    .spending-items {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+    }
+
+    .left-group {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .icon {
+        height: 25px;
+        width: 25px;
+        margin-right: 0px;
+    }
+
+    .price {
+        font-size: 18px;
+        width: auto;
+        padding: 0;
+    }
+
+    .category {
+        font-size: 12px;
+        padding: 0;
+    }
+  }
+
 @media (max-width: 600px) {
     .spending {
         font-size: 22px;

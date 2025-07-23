@@ -2,12 +2,12 @@
 <div class="card">
     <p class="key-metrics">
         Key Finance Metrics
-        <span class="info-icon">
+        <span class="info-icon" @click="toggleTooltip">
             <svg width="18" height="18" viewBox="0 0 24 19" fill="#aaa" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="10" stroke="none" />
                 <text x="12" y="16" text-anchor="middle" font-size="12" fill="white">i</text>
             </svg>
-            <span class="tooltip">
+            <span class="tooltip" :class="{ 'visible': isTooltipVisible }">
                 <strong>Emergency Fund:</strong> Total savings from previous months plus current balance.
                 <br />
                 <strong>Savings Rate:</strong> Portion of income remaining after all expenses.
@@ -57,7 +57,12 @@ export default {
                 }
             ];
         }
+    },
+    methods: {
+    toggleTooltip() {
+      this.isTooltipVisible = !this.isTooltipVisible;
     }
+  }
 }
 </script>
 
@@ -142,6 +147,12 @@ export default {
     mix-blend-mode: normal;
 }
 
+.tooltip.visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .tooltip::after {
     content: '';
     position: absolute;
@@ -159,22 +170,24 @@ export default {
     pointer-events: auto;
 }
 
-@media screen and (max-width: 600px) {
+@media (min-width: 601px) and (max-width: 1024px) {
 
   .mini-card {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       border-radius: 6px;
       padding: 4px;
-      width: 100%;
-      margin-right: 3px;
+      width: 170%;
+      height: 80%;
+      margin-right: 0px;
+      margin-left: 30px;
       align-items: center;
   }
 
   .mobile-mini-card {
       width: 80%;
       display: grid;
-      grid-template-columns: repeat(3, 100px);
+      grid-template-columns: repeat(1, 100px);
       gap: 10px;
       margin-left: -90px;
       gap: 15px;
@@ -183,23 +196,67 @@ export default {
   }
 
   .label {
-      font-size: 8px;
+      font-size: 16px;
   }
 
   .value {
-      font-size: 10px;
+      font-size: 18px;
+  }
+
+  .key-metrics {
+      font-size: 20px;
+      flex-direction: row;
+      gap: 4px;
+      margin-top: 5px;
+  }
+
+  .tooltip {
+      width: 45vw;
+      font-size: 13px;
+      padding: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .mini-card {
+      display: flex;
+      flex-direction: column;
+      border-radius: 6px;
+      padding: 4px;
+      width: 102%;
+      margin-right: 3px;
+      align-items: center;
+  }
+
+  .mobile-mini-card {
+      width: 75%;
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      margin-left: -98px;
+      gap: 17px;
+      align-items: center;
+      justify-content: space-between;
+  }
+
+  .label {
+      font-size: 12px;
+  }
+
+  .value {
+      font-size: 15px;
   }
 
   .key-metrics {
       font-size: 22px;
       flex-direction: row;
       gap: 4px;
-      margin-top: 0px;
+      margin-top: 10px;
   }
 
   .tooltip {
-      width: 90vw;
-      font-size: 8px;
+      width: 45vw;
+      font-size: 13px;
       padding: 8px;
   }
 }
