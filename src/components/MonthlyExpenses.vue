@@ -57,14 +57,12 @@ export default {
                 travel: '#2aa678',
                 utilities: '#15745b',
                 shopping: '#74C365',
-                groceries: '#a1c181',
                 entertainment: '#619b8a',
-                healthcare: '#3a6351',
+                health: '#3a6351',
                 education: '#55828b',
                 subscriptions: '#87c38f',
                 insurance: '#3a86ff',
-                investments: '#8338ec',
-                miscellaneous: '#ff006e',
+                taxes: '#a1c181',
                 others: '#fb5607'
             };
 

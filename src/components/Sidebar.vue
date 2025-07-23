@@ -1,123 +1,128 @@
 <template>
-<div>
-    <!-- Desktop Sidebar -->
+  <div>
     <div class="sidebar" v-if="!isMobile">
-        <div class="nav-elements">
-            <div class="profile-header">
-                <img :src="require('@/assets/Profile-icon.svg')" alt="Profile Icon" class="profile-icon" />
-                <h2 class="profile-name">John</h2>
-            </div>
-
-            <div class="nav-icons" v-for="(item, index) in navItems" :key="index" :class="{ active: isActive(item.routeName) }" @click="item.func">
-                <img :src="require(`@/assets/${item.icon}`)" :alt="item.label" :id="item.id" :style="{ width: item.width, height: item.height }" />
-                <div class="menu-item">{{ item.label }}</div>
-            </div>
+      <div class="nav-elements">
+        <div class="profile-header">
+          <img :src="require('@/assets/Profile-icon.svg')" alt="Profile Icon" class="profile-icon" />
+          <h2 class="profile-name">John</h2>
         </div>
-
-        <div class="expense-tracker-logo">
-            <img :src="require('@/assets/Expense-tracker-logo.svg')" class="expense-tracker-icon" />
+        <div
+          class="nav-icons"
+          v-for="(item, index) in navItems"
+          :key="index"
+          :class="{ active: isActive(item.routeName) }"
+          @click="item.func"
+        >
+          <img
+            :src="require(`@/assets/${item.icon}`)"
+            :alt="item.label"
+            :id="item.id"
+            :style="{ width: item.width, height: item.height }"
+          />
+          <div class="menu-item">{{ item.label }}</div>
         </div>
+      </div>
+
+      <div class="expense-tracker-logo">
+        <img :src="require('@/assets/expensetrackerlogo.svg')" class="expense-tracker-icon" />
+      </div>
     </div>
-
-    <!-- Mobile Bottom Nav -->
     <div class="bottom-nav" v-if="isMobile">
-        <div class="bottom-icon" v-for="(item, index) in navItems" :key="index" :class="{ active: isActive(item.routeName) }" @click="item.func">
-            <img :src="require(`@/assets/${item.icon}`)" :alt="item.label" style="width: 24px; height: 24px" />
-        </div>
+      <div
+        class="bottom-icon"
+        v-for="(item, index) in navItems"
+        :key="index"
+        :class="{ active: isActive(item.routeName) }"
+        @click="item.func"
+      >
+        <img
+          :src="require(`@/assets/${item.icon}`)"
+          :alt="item.label"
+          style="width: 24px; height: 24px"
+        />
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-import {
-    auth
-} from "@/firebase";
+import { auth } from "@/firebase";
 
 export default {
-    name: "MySidebar1",
-    data() {
-        return {
-            isMobile: window.innerWidth <= 768,
-            navItems: [{
-                    label: "Dashboard",
-                    icon: "Dashboard-icon.svg",
-                    routeName: "dashboard",
-                    width: "23px",
-                    height: "23px",
-                    func: () => {
-                        if (this.$route.name !== "dashboard") {
-                            this.$router.push({
-                                name: "dashboard"
-                            });
-                        }
-                    }
-                },
-                {
-                    label: "Analytics",
-                    icon: "Analytics-icon.svg",
-                    id: "analytics-icon",
-                    routeName: "analytics",
-                    width: "28.5px",
-                    height: "28.5px",
-                    func: () => {
-                        if (this.$route.name !== "analytics") {
-                            this.$router.push({
-                                name: "analytics"
-                            });
-                        }
-                    }
-                },
-                {
-                    label: "Settings",
-                    icon: "settings-icon.svg",
-                    routeName: "setting",
-                    width: "24.8px",
-                    height: "26px",
-                    func: () => {
-                        if (this.$route.name !== "setting") {
-                            this.$router.push({
-                                name: "setting"
-                            });
-                        }
-                    }
-                },
-                {
-                    label: "Logout",
-                    icon: "Logout-icon.svg",
-                    routeName: "logout",
-                    width: "22px",
-                    height: "21px",
-                    id: "logout-icon",
-                    func: () => {
-                        auth.signOut().then(() => {
-                            this.$router.push({
-                                name: "login"
-                            });
-                        });
-                    }
-                }
-            ]
-        };
-    },
-    mounted() {
-        window.addEventListener("resize", this.checkScreenSize);
-    },
-    beforeDestroy() {
-        window.removeEventListener("resize", this.checkScreenSize);
-    },
-    methods: {
-        isActive(routeName) {
-            return this.$route.name === routeName;
+  name: "MySidebar1",
+  data() {
+    return {
+      isMobile: window.innerWidth <= 768,
+      navItems: [
+        {
+          label: "Dashboard",
+          icon: "dashboardicon.svg",
+          routeName: "dashboard",
+          height: "20px",
+          func: () => {
+            if (this.$route.name !== "dashboard") {
+              this.$router.push({ name: "dashboard" });
+            }
+          }
         },
-        checkScreenSize() {
-            this.isMobile = window.innerWidth <= 768;
+        {
+          label: "Analytics",
+          icon: "analyticsicon.svg",
+          id: "analytics-icon",
+          routeName: "analytics",
+          height: "20px",
+          func: () => {
+            if (this.$route.name !== "analytics") {
+              this.$router.push({ name: "analytics" });
+            }
+          }
+        },
+        {
+          label: "Settings",
+          icon: "settingsicon.svg",
+          routeName: "setting",
+          height: "21px",
+          func: () => {
+            if (this.$route.name !== "setting") {
+              this.$router.push({ name: "setting" });
+            }
+          }
+        },
+        {
+          label: "Logout",
+          icon: "logouticon.svg",
+          routeName: "logout",
+          height: "20px",
+          id: "logout-icon",
+          margin: "10px",
+          func: () => {
+            auth.signOut().then(() => {
+              this.$router.push({ name: "login" });
+            });
+          }
         }
+      ]
+    };
+  },
+  mounted() {
+    window.addEventListener("resize", this.checkScreenSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.checkScreenSize);
+  },
+  methods: {
+    isActive(routeName) {
+      return this.$route.name === routeName;
+    },
+    checkScreenSize() {
+      this.isMobile = window.innerWidth <= 768;
     }
+  }
 };
 </script>
 
 <style scoped>
-.sidebar {
+  .sidebar {
     width: 11.7vw;
     height: 93.9vh;
     background-color: #0d0d0d;
@@ -127,17 +132,17 @@ export default {
     justify-content: space-between;
     position: sticky;
     top: 0;
-}
+  }
 
-.nav-elements {
+  .nav-elements {
     padding-left: 10px;
 }
 
-.expense-tracker-logo {
+  .expense-tracker-logo {
     margin: 0 0 3px 7px;
 }
 
-.expense-tracker-icon {
+  .expense-tracker-icon {
     width: 70px;
     height: 70px;
 }
@@ -148,7 +153,7 @@ export default {
     gap: 12px;
     flex-direction: row;
     margin: 3px 0 43px -4px;
-}
+  }
 
 .profile-name {
     font-size: 19.5px;
@@ -165,36 +170,42 @@ export default {
     cursor: pointer;
 }
 
-.nav-icons .menu-item {
+  .nav-icons .menu-item {
     color: white;
     margin-left: 12px;
-}
+  }
 
-.nav-icons.active img {
-    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg) brightness(90%) contrast(85%);
-}
+  .nav-icons.active img {
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
+      brightness(90%) contrast(85%);
+  }
 
-.nav-icons.active .menu-item {
+  .nav-icons.active .menu-item {
     color: #78a55a;
-}
+  }
 
-.menu-item {
+  .menu-item {
     margin: 20px 0;
     font-weight: 400;
     opacity: 0.9;
     color: #fff;
 }
 
-.nav-icons:hover img {
-    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg) brightness(90%) contrast(85%);
-}
+  .nav-icons:hover img {
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
+      brightness(90%) contrast(85%);
+  }
 
-.nav-icons:hover .menu-item {
+  .nav-icons:hover .menu-item {
     color: #78a55a;
     filter: drop-shadow(0 0 4px rgba(120, 165, 90, 0.2));
 }
 
-.bottom-nav {
+  #logout-icon {
+    padding-left: 2.5px;
+  }
+
+  .bottom-nav {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -203,25 +214,23 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 1000;
-    border-top: 1px solid #333;
-}
+  }
 
-.bottom-icon {
+  .bottom-icon {
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-}
+  }
 
-.bottom-icon.active img {
-    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg) brightness(90%) contrast(85%);
-}
+  .bottom-icon.active img {
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
+      brightness(90%) contrast(85%);
+  }
 
-@media (max-width: 600px) {
+  @media (max-width: 600px) {
     .sidebar {
-        /* display: none; */
-        position: fixed;
+      display: none;
     }
-}
+  }
 </style>

@@ -13,9 +13,9 @@ let app = null
 onAuthStateChanged(auth, (user) => {
   if (user) {
     store.dispatch('setUser', user.uid)
-    store.dispatch('fetchTransactions')  
+    store.dispatch('fetchTransactions')
   } else {
-    store.commit('RESET_STATE')  
+    store.commit('RESET_STATE')
   }
   if (!app) {
     app = new Vue({

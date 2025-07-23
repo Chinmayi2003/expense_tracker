@@ -22,14 +22,14 @@ export default {
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         },
         renderChart() {
-            const now = new Date();
-            const labels = Array.from({
-                length: 30
-            }, (_, i) => {
-                const d = new Date(now);
-                d.setDate(now.getDate() - (29 - i));
-                return `${d.getDate()}/${d.getMonth() + 1}`;
-            });
+           const now = new Date();
+const labels = Array.from({ length: 31 }, (_, i) => {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0); // normalize to start of local day
+  d.setDate(now.getDate() - (28 - i));
+  return `${d.getDate()}/${d.getMonth()+1}`;
+});
+
 
             const categorySet = new Set();
             this.dailyCategoryData.forEach(day => {
@@ -45,14 +45,12 @@ export default {
                 travel: '#2aa678',
                 utilities: '#15745b',
                 shopping: '#74C365',
-                groceries: '#a1c181',
                 entertainment: '#619b8a',
-                healthcare: '#3a6351',
+                health: '#3a6351',
                 education: '#55828b',
                 subscriptions: '#87c38f',
                 insurance: '#3a86ff',
-                investments: '#8338ec',
-                miscellaneous: '#ff006e',
+                taxes: '#a1c181',
                 others: '#fb5607'
             };
 
