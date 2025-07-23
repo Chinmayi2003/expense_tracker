@@ -67,197 +67,197 @@ export default {
 </script>
 
 <style scoped>
-.card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+    .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-.key-metrics {
-    font-size: 22px;
-    font-weight: 400;
-    color: #c1bfd9;
-    margin-top: 12px;
-    margin-bottom: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    position: relative;
-}
+    .key-metrics {
+        font-size: 22px;
+        font-weight: 400;
+        color: #c1bfd9;
+        margin-top: 12px;
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        position: relative;
+    }
 
-.mini-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(13, 13, 13, 0.7);
-    padding: 11px;
-    border-radius: 12px;
-    border: 1px solid #6e6d7a;
-    width: 220px;
-    height: auto;
-    margin-top: 0px;
-    margin-bottom: 15px;
-}
+    .mini-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(13, 13, 13, 0.7);
+        padding: 11px;
+        border-radius: 12px;
+        border: 1px solid #6e6d7a;
+        width: 220px;
+        height: auto;
+        margin-top: 0px;
+        margin-bottom: 15px;
+    }
 
-.label {
-    font-size: 15px;
-    color: #ffffff;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
+    .label {
+        font-size: 15px;
+        color: #ffffff;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
 
-.value {
-    font-size: 24px;
-    color: #ffffff;
-    margin: 5px 0 0 0;
-}
+    .value {
+        font-size: 24px;
+        color: #ffffff;
+        margin: 5px 0 0 0;
+    }
 
-.info-icon {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
+    .info-icon {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
 
-.tooltip {
-    visibility: hidden;
-    width: 350px;
-    background-color: #000;
-    color: #fff;
-    text-align: left;
-    border-radius: 6px;
-    padding: 10px;
-    position: absolute;
-    z-index: 9999;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    font-size: 12px;
-    line-height: 1.6;
-    white-space: normal;
-    pointer-events: none;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-    mix-blend-mode: normal;
-}
+    .tooltip {
+        visibility: hidden;
+        width: 350px;
+        background-color: #000;
+        color: #fff;
+        text-align: left;
+        border-radius: 6px;
+        padding: 10px;
+        position: absolute;
+        z-index: 9999;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        font-size: 12px;
+        line-height: 1.6;
+        white-space: normal;
+        pointer-events: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+        mix-blend-mode: normal;
+    }
 
-.tooltip.visible {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #000 transparent transparent transparent;
-}
-
-.info-icon:hover .tooltip {
+    .tooltip.visible {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-}
+    }
 
-@media (min-width: 601px) and (max-width: 1024px) {
+    .tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #000 transparent transparent transparent;
+    }
 
-  .mini-card {
-      display: flex;
-      flex-direction: column;
-      border-radius: 6px;
-      padding: 4px;
-      width: 170%;
-      height: 80%;
-      margin-right: 0px;
-      margin-left: 30px;
-      align-items: center;
-  }
+    .info-icon:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+    }
 
-  .mobile-mini-card {
-      width: 80%;
-      display: grid;
-      grid-template-columns: repeat(1, 100px);
-      gap: 10px;
-      margin-left: -90px;
-      gap: 15px;
-      align-items: center;
-      justify-content: space-between;
-  }
+    @media (min-width: 601px) and (max-width: 1024px) {
 
-  .label {
-      font-size: 16px;
-  }
+    .mini-card {
+        display: flex;
+        flex-direction: column;
+        border-radius: 6px;
+        padding: 4px;
+        width: 170%;
+        height: 80%;
+        margin-right: 0px;
+        margin-left: 30px;
+        align-items: center;
+    }
 
-  .value {
-      font-size: 18px;
-  }
+    .mobile-mini-card {
+        width: 80%;
+        display: grid;
+        grid-template-columns: repeat(1, 100px);
+        gap: 10px;
+        margin-left: -90px;
+        gap: 15px;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-  .key-metrics {
-      font-size: 20px;
-      flex-direction: row;
-      gap: 4px;
-      margin-top: 5px;
-  }
+    .label {
+        font-size: 16px;
+    }
 
-  .tooltip {
-      width: 45vw;
-      font-size: 13px;
-      padding: 8px;
-  }
-}
+    .value {
+        font-size: 18px;
+    }
 
-@media (max-width: 600px) {
+    .key-metrics {
+        font-size: 20px;
+        flex-direction: row;
+        gap: 4px;
+        margin-top: 5px;
+    }
 
-  .mini-card {
-      display: flex;
-      flex-direction: column;
-      border-radius: 6px;
-      padding: 4px;
-      width: 102%;
-      margin-right: 3px;
-      align-items: center;
-  }
+    .tooltip {
+        width: 45vw;
+        font-size: 13px;
+        padding: 8px;
+    }
+    }
 
-  .mobile-mini-card {
-      width: 75%;
-      display: grid;
-      grid-template-columns: repeat(3, 100px);
-      margin-left: -98px;
-      gap: 17px;
-      align-items: center;
-      justify-content: space-between;
-  }
+    @media (max-width: 600px) {
 
-  .label {
-      font-size: 12px;
-  }
+    .mini-card {
+        display: flex;
+        flex-direction: column;
+        border-radius: 6px;
+        padding: 4px;
+        width: 102%;
+        margin-right: 3px;
+        align-items: center;
+    }
 
-  .value {
-      font-size: 15px;
-  }
+    .mobile-mini-card {
+        width: 75%;
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        margin-left: -98px;
+        gap: 17px;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-  .key-metrics {
-      font-size: 22px;
-      flex-direction: row;
-      gap: 4px;
-      margin-top: 10px;
-  }
+    .label {
+        font-size: 12px;
+    }
 
-  .tooltip {
-      width: 45vw;
-      font-size: 13px;
-      padding: 8px;
-  }
-}
+    .value {
+        font-size: 15px;
+    }
+
+    .key-metrics {
+        font-size: 22px;
+        flex-direction: row;
+        gap: 4px;
+        margin-top: 10px;
+    }
+
+    .tooltip {
+        width: 45vw;
+        font-size: 13px;
+        padding: 8px;
+    }
+    }
 </style>

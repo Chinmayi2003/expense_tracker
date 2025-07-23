@@ -29,7 +29,6 @@ export default {
     };
   },
   mounted() {
-    // Initialize local values based on field count
     this.localValues = this.fields.map(() => "");
   },
   methods: {

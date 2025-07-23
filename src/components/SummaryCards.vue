@@ -53,52 +53,52 @@ export default {
 </script>
 
 <style scoped>
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.card {
-  flex: 1 1 calc(25% - 15px);
-  padding: 20px;
-  border: 1px solid #3a3a3a;
-  border-radius: 8px;
-  background-color: #0d0d0d;
-  color: #fff;
-  box-sizing: border-box;
-}
-
-.card-label {
-  font-size: 17px;
-  font-weight: 100;
-  padding: 5px 0 19px;
-  opacity: 0.7;
-}
-
-.amount {
-  font-size: 27px;
-  font-weight: 500;
-  opacity: 0.7;
-}
-@media (max-width: 600px) {
-  .card {
-    flex: 1 1 calc(50% - 15px);
-    padding: 15px;
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
   }
-}
 
-@media (min-width: 601px) and (max-width: 1024px) {
+  .card {
+    flex: 1 1 calc(25% - 15px);
+    padding: 20px;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    background-color: #0d0d0d;
+    color: #fff;
+    box-sizing: border-box;
+  }
+
   .card-label {
-    font-size: 15.8px;
+    font-size: 17px;
     font-weight: 100;
     padding: 5px 0 19px;
     opacity: 0.7;
   }
+
   .amount {
-    font-size: 24px;
+    font-size: 27px;
     font-weight: 500;
     opacity: 0.7;
   }
-}
+  @media (max-width: 600px) {
+    .card {
+      flex: 1 1 calc(50% - 15px);
+      padding: 15px;
+    }
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .card-label {
+      font-size: 15.8px;
+      font-weight: 100;
+      padding: 5px 0 19px;
+      opacity: 0.7;
+    }
+    .amount {
+      font-size: 24px;
+      font-weight: 500;
+      opacity: 0.7;
+    }
+  }
 </style>

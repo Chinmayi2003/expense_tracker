@@ -6,19 +6,10 @@
           <img :src="require('@/assets/Profile-icon.svg')" alt="Profile Icon" class="profile-icon" />
           <h2 class="profile-name">John</h2>
         </div>
-        <div
-          class="nav-icons"
-          v-for="(item, index) in navItems"
-          :key="index"
-          :class="{ active: isActive(item.routeName) }"
-          @click="item.func"
-        >
-          <img
-            :src="require(`@/assets/${item.icon}`)"
-            :alt="item.label"
-            :id="item.id"
-            :style="{ width: item.width, height: item.height }"
-          />
+        <div class="nav-icons" v-for="(item, index) in navItems" :key="index"
+          :class="{ active: isActive(item.routeName) }" @click="item.func">
+          <img :src="require(`@/assets/${item.icon}`)" :alt="item.label" :id="item.id"
+            :style="{ width: item.width, height: item.height }" />
           <div class="menu-item">{{ item.label }}</div>
         </div>
       </div>
@@ -28,18 +19,9 @@
       </div>
     </div>
     <div class="bottom-nav" v-if="isMobile">
-      <div
-        class="bottom-icon"
-        v-for="(item, index) in navItems"
-        :key="index"
-        :class="{ active: isActive(item.routeName) }"
-        @click="item.func"
-      >
-        <img
-          :src="require(`@/assets/${item.icon}`)"
-          :alt="item.label"
-          style="width: 24px; height: 24px"
-        />
+      <div class="bottom-icon" v-for="(item, index) in navItems" :key="index"
+        :class="{ active: isActive(item.routeName) }" @click="item.func">
+        <img :src="require(`@/assets/${item.icon}`)" :alt="item.label" style="width: 24px; height: 24px" />
       </div>
     </div>
   </div>
@@ -136,18 +118,18 @@ export default {
 
   .nav-elements {
     padding-left: 10px;
-}
+  }
 
   .expense-tracker-logo {
     margin: 0 0 3px 7px;
-}
+  }
 
   .expense-tracker-icon {
     width: 70px;
     height: 70px;
-}
+  }
 
-.profile-header {
+  .profile-header {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -155,20 +137,20 @@ export default {
     margin: 3px 0 43px -4px;
   }
 
-.profile-name {
+  .profile-name {
     font-size: 19.5px;
     font-weight: bold;
     margin: 34px 0 7px -2.5px;
     width: 10px;
-}
+  }
 
-.nav-icons {
+  .nav-icons {
     display: flex;
     align-items: center;
     margin-bottom: -11px;
     transition: transform 0.15s ease, box-shadow 0.3s ease;
     cursor: pointer;
-}
+  }
 
   .nav-icons .menu-item {
     color: white;
@@ -176,8 +158,7 @@ export default {
   }
 
   .nav-icons.active img {
-    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
-      brightness(90%) contrast(85%);
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg) brightness(90%) contrast(85%);
   }
 
   .nav-icons.active .menu-item {
@@ -189,17 +170,16 @@ export default {
     font-weight: 400;
     opacity: 0.9;
     color: #fff;
-}
+  }
 
   .nav-icons:hover img {
-    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
-      brightness(90%) contrast(85%);
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg) brightness(90%) contrast(85%);
   }
 
   .nav-icons:hover .menu-item {
     color: #78a55a;
     filter: drop-shadow(0 0 4px rgba(120, 165, 90, 0.2));
-}
+  }
 
   #logout-icon {
     padding-left: 2.5px;
@@ -224,8 +204,7 @@ export default {
   }
 
   .bottom-icon.active img {
-    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
-      brightness(90%) contrast(85%);
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg) brightness(90%) contrast(85%);
   }
 
   @media (max-width: 600px) {

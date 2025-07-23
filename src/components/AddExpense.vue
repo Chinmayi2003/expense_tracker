@@ -435,7 +435,7 @@ export default {
 </script>
 
 <style scoped>
-  *{
+  * {
     font-family: "Roboto", sans-serif;
   }
   ::v-deep(.vs__dropdown-menu) {
