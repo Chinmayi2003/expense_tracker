@@ -1,19 +1,18 @@
 <template>
-	<div class="analytics" style="display: flex">
-		<MySidebar />
-		<router-view></router-view>
+  <div class="analytics">
+    <MySidebar />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import MySidebar from '@/components/Sidebar.vue'
+import MySidebar from "@/components/Sidebar.vue";
 
 export default {
-	components: {
-		MySidebar
-	}
-}
-
+  components: {
+    MySidebar
+  }
+};
 </script>
 
 <style scoped>

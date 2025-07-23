@@ -1,13 +1,35 @@
 <template>
-  <div class="sidebar">
-    <div class="nav-elements">
-      <div class="profile-header">
-        <img :src="require('@/assets/Profile-icon.svg')" alt="Profile Icon" class="profile-icon" />
-        <h2 class="profile-name">John</h2>
+  <div>
+    <div class="sidebar" v-if="!isMobile">
+      <div class="nav-elements">
+        <div class="profile-header">
+          <img :src="require('@/assets/Profile-icon.svg')" alt="Profile Icon" class="profile-icon" />
+          <h2 class="profile-name">John</h2>
+        </div>
+        <div
+          class="nav-icons"
+          v-for="(item, index) in navItems"
+          :key="index"
+          :class="{ active: isActive(item.routeName) }"
+          @click="item.func"
+        >
+          <img
+            :src="require(`@/assets/${item.icon}`)"
+            :alt="item.label"
+            :id="item.id"
+            :style="{ width: item.width, height: item.height }"
+          />
+          <div class="menu-item">{{ item.label }}</div>
+        </div>
       </div>
 
+      <div class="expense-tracker-logo">
+        <img :src="require('@/assets/expensetrackerlogo.svg')" class="expense-tracker-icon" />
+      </div>
+    </div>
+    <div class="bottom-nav" v-if="isMobile">
       <div
-        class="nav-icons"
+        class="bottom-icon"
         v-for="(item, index) in navItems"
         :key="index"
         :class="{ active: isActive(item.routeName) }"
@@ -16,40 +38,27 @@
         <img
           :src="require(`@/assets/${item.icon}`)"
           :alt="item.label"
-          :id="item.id"
-          :style="{ width: item.width, height: item.height }"
+          style="width: 24px; height: 24px"
         />
-        <div class="menu-item" :style="{ marginLeft: item.marginLeft }">{{ item.label }}</div>
       </div>
-    </div>
-
-    <div class="expense-tracker-logo">
-      <img :src="require('@/assets/Expense-tracker-logo.svg')" class="expense-tracker-icon" />
     </div>
   </div>
 </template>
-
 
 <script>
 import { auth } from "@/firebase";
 
 export default {
   name: "MySidebar1",
-  methods: {
-    isActive(routeName) {
-      return this.$route.name === routeName;
-    }
-  },
   data() {
     return {
+      isMobile: window.innerWidth <= 768,
       navItems: [
         {
           label: "Dashboard",
-          icon: "Dashboard-icon.svg",
-          marginLeft: "14px",
-          width: "23px",
-          height: "23px",
+          icon: "dashboardicon.svg",
           routeName: "dashboard",
+          height: "20px",
           func: () => {
             if (this.$route.name !== "dashboard") {
               this.$router.push({ name: "dashboard" });
@@ -58,11 +67,10 @@ export default {
         },
         {
           label: "Analytics",
-          icon: "Analytics-icon.svg",
+          icon: "analyticsicon.svg",
           id: "analytics-icon",
-          marginLeft: "12.5px",
-          width: "28.5px",
           routeName: "analytics",
+          height: "20px",
           func: () => {
             if (this.$route.name !== "analytics") {
               this.$router.push({ name: "analytics" });
@@ -71,11 +79,9 @@ export default {
         },
         {
           label: "Settings",
-          icon: "settings-icon.svg",
-          marginLeft: "14px",
-          width: "24.8px",
-          height: "26px",
+          icon: "settingsicon.svg",
           routeName: "setting",
+          height: "21px",
           func: () => {
             if (this.$route.name !== "setting") {
               this.$router.push({ name: "setting" });
@@ -84,11 +90,11 @@ export default {
         },
         {
           label: "Logout",
-          icon: "Logout-icon.svg",
-          marginLeft: "15px",
-          width: "22px",
-          height: "21px",
+          icon: "logouticon.svg",
+          routeName: "logout",
+          height: "20px",
           id: "logout-icon",
+          margin: "10px",
           func: () => {
             auth.signOut().then(() => {
               this.$router.push({ name: "login" });
@@ -97,6 +103,20 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    window.addEventListener("resize", this.checkScreenSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.checkScreenSize);
+  },
+  methods: {
+    isActive(routeName) {
+      return this.$route.name === routeName;
+    },
+    checkScreenSize() {
+      this.isMobile = window.innerWidth <= 768;
+    }
   }
 };
 </script>
@@ -111,7 +131,9 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     position: sticky;
+    top: 0;
   }
+
   .nav-elements {
     padding-left: 10px;
   }
@@ -150,6 +172,7 @@ export default {
 
   .nav-icons .menu-item {
     color: white;
+    margin-left: 12px;
   }
 
   .nav-icons.active img {
@@ -168,21 +191,6 @@ export default {
     color: #fff;
   }
 
-  #analytics-icon {
-    margin-left: -3px;
-  }
-
-  #logout-icon {
-    margin-left: 3px;
-  }
-
-  .dashboard-nav-icon,
-  .Analytic-nav-icon,
-  .Settings-nav-icon,
-  .Logout-nav-icon {
-    fill: #c1bfd9;
-  }
-
   .nav-icons:hover img {
     filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
       brightness(90%) contrast(85%);
@@ -191,5 +199,38 @@ export default {
   .nav-icons:hover .menu-item {
     color: #78a55a;
     filter: drop-shadow(0 0 4px rgba(120, 165, 90, 0.2));
+  }
+
+  #logout-icon {
+    padding-left: 2.5px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #0d0d0d;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .bottom-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .bottom-icon.active img {
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
+      brightness(90%) contrast(85%);
+  }
+
+  @media (max-width: 600px) {
+    .sidebar {
+      display: none;
+    }
   }
 </style>

@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import PortalVue from "portal-vue";
 import { db } from '@/firebase'
 import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
 
 Vue.use(Vuex)
-
+Vue.use(PortalVue);
 const getDefaultState = () => ({
   transactions: [],
   userId: null
@@ -12,17 +13,17 @@ const getDefaultState = () => ({
 
 function getIconForCategory(category) {
   const icons = {
-    Food: require('@/assets/Food logo.svg'),
-    Rent: require('@/assets/Rent Icon.svg'),
-    Travel: require('@/assets/Travel icon.svg'),
-    Salary: require('@/assets/Salary Icon.svg'),
+    Food: require('@/assets/foodlogo.svg'),
+    Rent: require('@/assets/renticon.svg'),
+    Travel: require('@/assets/travelicon.svg'),
+    Salary: require('@/assets/salary.svg'),
     Education: require('@/assets/education.svg'),
     Shopping: require('@/assets/shopping.svg'),
     Health: require('@/assets/health.svg'),
     Entertainment: require('@/assets/entertainment.svg'),
     Utilities: require('@/assets/utilities.svg'),
     Interest: require('@/assets/interest.svg'),
-    "Business Income": require('@/assets/business-income.svg'),
+    "Business Income": require('@/assets/businessincome.svg'),
     Freelance: require('@/assets/freelance.svg'),
     Investment: require('@/assets/profit.svg'),
     Taxes: require('@/assets/tax.svg'),
@@ -80,12 +81,16 @@ export default new Vuex.Store({
         console.error("Cannot add transaction: userId is null")
         return
       }
+      const transactionWithId = {
+        ...transaction,
+        id: Date.now().toString()
+      };
 
-      commit('ADD_TRANSACTION', transaction)
+      commit('ADD_TRANSACTION', transactionWithId)
 
       const userDocRef = doc(db, 'users', state.userId)
       await setDoc(userDocRef, {
-        transactions: arrayUnion(transaction)
+        transactions: arrayUnion(transactionWithId)
       }, { merge: true })
     },
 
@@ -102,9 +107,15 @@ export default new Vuex.Store({
         transactions: arrayRemove(transactionToDelete)
       });
     },
-    async updateTransaction({ commit, state }, { index, updatedTransaction }) {
+    async updateTransaction({ commit, state }, updatedTransaction) {
       if (!state.userId) {
         console.error("Cannot update transaction: userId is null");
+        return;
+      }
+
+      const index = state.transactions.findIndex(t => t.id === updatedTransaction.id);
+      if (index === -1) {
+        console.error("Transaction not found for update");
         return;
       }
 
@@ -118,12 +129,14 @@ export default new Vuex.Store({
         transactions: updatedTransactions,
       });
     },
+
     setUser({ commit }, uid) {
       commit('SET_USER_ID', uid)
     }
   },
 
   getters: {
+    getTransactions: state => state.transactions,
     incomeTotal: state =>
       state.transactions.filter(t => t.price > 0)
         .reduce((sum, t) => sum + Number(t.price), 0),
@@ -173,7 +186,7 @@ export default new Vuex.Store({
           }
         }
       });
-
+      console.log(categoryMap, "category map")
       const sorted = Object.entries(categoryMap)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5)

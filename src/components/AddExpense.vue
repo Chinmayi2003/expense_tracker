@@ -18,23 +18,25 @@
         <div id="main-div1">
           <div class="form-group">
             <label class="labels transaction-label">Transaction*</label>
-            <div class="radio-group" style="margin-left: 50px">
+            <div class="radio-group">
               <label class="radio-option">
                 <input
                   type="radio"
                   name="transactionType"
                   value="Credits"
+                  :disabled="editData && editData.id"
                   v-model="form.transactionType"
                   required
                 />
                 <span class="custom-radio"></span>
                 Credits
               </label>
-              <label class="radio-option" style="margin-left: 30px">
+              <label class="radio-option rd2">
                 <input
                   type="radio"
                   name="transactionType"
                   value="Expense"
+                  :disabled="editData && editData.id"
                   v-model="form.transactionType"
                   required
                 />
@@ -43,9 +45,11 @@
               </label>
             </div>
           </div>
+
           <div class="form-group select-wrapper">
             <label class="labels cat">Category*</label>
             <input type="text" v-model="form.category" class="cat-inp" required tabindex="-1" />
+            <span :class="categoryClass"></span>
             <v-select
               v-model="form.category"
               :options="currentCategoryOptions"
@@ -87,14 +91,14 @@
             <input
               v-model="form.total"
               type="number"
-              onkeydown="return !['+', '-', 'e','E'].includes(event.key)"
+              @keydown="preventInvalidKeys"
               class="inp tot1 amount1 no-spinner"
               required
             />
             <input
               type="text"
               placeholder="Rupees"
-              v-model="form.tot2"
+              readonly
               tabindex="-1"
               class="inp amount1 amount-inp"
             />
@@ -108,9 +112,16 @@
 
         <label for="fileInput" class="uploadlabel">
           <div class="form-group upload" tabindex="0">
-            <img :src="require('@/assets/Vector.svg')" alt="Upload" class="Vector" />
+            <img v-if="previewUrl" :src="previewUrl" alt="Preview" class="Vector vect2" />
+            <img v-else :src="require('@/assets/Vector.svg')" alt="Upload" class="Vector" />
             <p class="invoice-para">{{ filename }}</p>
-            <input type="file" id="fileInput" @change="handleFileUpload" ref="fileInput" />
+            <input
+              type="file"
+              id="fileInput"
+              @change="handleFileUpload"
+              ref="fileInput"
+              accept=".jpg, .jpeg, .png, .pdf"
+            />
           </div>
         </label>
       </div>
@@ -118,16 +129,101 @@
     </form>
   </div>
 </template>
- 
+
 <script>
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import { mapActions } from "vuex";
+
+const CREDIT_CATEGORIES = [
+  "Salary",
+  "Freelance",
+  "Business Income",
+  "Interest",
+  "Investment Income",
+  "Gifts",
+  "Other"
+];
+
+const DEBIT_CATEGORIES = [
+  "Travel",
+  "Food",
+  "Rent",
+  "Utilities",
+  "Entertainment",
+  "Shopping",
+  "Health",
+  "Education",
+  "Insurance",
+  "Taxes",
+  "Subscriptions",
+  "Other"
+];
+
+const CREDIT_MODES = ["Business Transaction", "Online", "Cash", "Other"];
+const DEBIT_MODES = [
+  "Debit card",
+  "Business Transaction",
+  "UPI",
+  "Cash",
+  "Other"
+];
 
 export default {
   components: { vSelect },
+  props: {
+    editData: {
+      type: Object,
+      default: () => ({})
+    },
+    show: Boolean
+  },
+  watch: {
+    show(value) {
+      if (!value) {
+        this.resetForm();
+      }
+    },
+    "form.transactionType"() {
+      if (!this.currentCategoryOptions.includes(this.form.category)) {
+        this.form.category = "";
+      }
+      if (!this.modeOptions.includes(this.form.mode)) {
+        this.form.mode = "";
+      }
+    },
+    editData: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal && Object.keys(newVal).length > 0) {
+          this.isEditing = true;
+          this.form.transactionType = newVal.price > 0 ? "Credits" : "Expense";
+          this.form.category = newVal.category;
+          this.form.mode = newVal.mode;
+          this.form.date = this.reverseFormattedDate(newVal.date);
+          this.form.total = Math.abs(newVal.price);
+          this.form.description = newVal.description;
+          if (newVal.invoiceUrl) {
+            this.previewUrl = newVal.invoiceUrl.endsWith(".pdf")
+              ? require("@/assets/pdf-icon.png")
+              : newVal.invoiceUrl;
+            const fileName = newVal.invoiceUrl.split("/").pop();
+            this.filename =
+              fileName.length > 10
+                ? fileName.substring(0, 10) + "..." + fileName.slice(-4)
+                : fileName;
+          } else {
+            this.isEditing = false;
+          }
+        }
+      }
+    }
+  },
   data() {
     return {
+      isEditing: false,
       filename: "Upload an invoice",
+      previewUrl: null,
       form: {
         transactionType: "Credits",
         category: "",
@@ -136,114 +232,83 @@ export default {
         total: "",
         currency: "Rupee",
         description: ""
-      },
-      CategoriesOptions: [
-        "Travel",
-        "Food",
-        "Rent",
-        "Salary",
-        "Freelance",
-        "Business Income",
-        "Interest",
-        "Investment Income",
-        "Utilities",
-        "Entertainment",
-        "Shopping",
-        "Health",
-        "Education",
-        "Gifts",
-        "Subscriptions",
-        "Insurance",
-        "Taxes",
-        "Other"
-      ],
-      ModeOptions: ["Debit card", "Credit card", "UPI", "Cash", "Other"],
-      currencyOptions: ["Rupee"]
+      }
     };
   },
-  props: {
-    editData: {
-      type: Object,
-      default: null
-    }
-  },
   computed: {
+    categoryClass() {
+      return this.getCategoryClass(this.form.category);
+    },
     currentCategoryOptions() {
-      if (this.form.transactionType === "Credits") {
-        return [
-          "Salary",
-          "Freelance",
-          "Business Income",
-          "Interest",
-          "Investment Income",
-          "Gifts",
-          "Other"
-        ];
-      } else {
-        return this.CategoriesOptions.filter(
-          cat =>
-            cat !== "Salary" &&
-            cat !== "Freelance" &&
-            cat !== "Business Income" &&
-            cat !== "Interest" &&
-            cat !== "Investment Income" &&
-            cat !== "Gifts"
-        );
-      }
+      return this.form.transactionType === "Credits"
+        ? CREDIT_CATEGORIES
+        : DEBIT_CATEGORIES;
     },
     modeOptions() {
-      if (this.form.transactionType === "Credits") {
-        return ["Credit card", "Online", "Cash", "Other"];
-      } else {
-        return this.ModeOptions.filter(
-          mode => mode !== "Credit card" && mode !== "Online"
-        );
-      }
+      return this.form.transactionType === "Credits"
+        ? CREDIT_MODES
+        : DEBIT_MODES;
     },
     todayDate() {
       const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    }
-  },
-  watch: {
-    "form.transactionType"() {
-      if (
-        this.form.category &&
-        !this.currentCategoryOptions.includes(this.form.category)
-      ) {
-        this.form.category = "";
-      }
-      if (this.form.mode && !this.modeOptions.includes(this.form.mode)) {
-        this.form.mode = "";
-      }
-    },
-    editData: {
-      immediate: true,
-      handler(newVal) {
-        if (newVal) {
-          this.form.transactionType = newVal.price > 0 ? "Credits" : "Expense";
-          this.form.category = newVal.category;
-          this.form.mode = newVal.mode;
-          this.form.date = this.reverseFormattedDate(newVal.date);
-          this.form.total = Math.abs(newVal.price);
-          this.form.tot2 = "Rupees";
-          this.form.description = newVal.description;
-        }
-      }
+      return today.toISOString().split("T")[0];
     }
   },
   methods: {
+    ...mapActions(["addTransaction", "updateTransaction"]),
+    preventInvalidKeys(event) {
+      if (["+", "-", "e", "E"].includes(event.key)) {
+        event.preventDefault();
+      }
+    },
+    handleClose() {
+      this.resetForm();
+      this.$emit("close");
+      this.$emit("clearEditData");
+    },
     handleFileUpload(event) {
       const file = event.target.files[0];
-      this.filename = file ? `${file.name}` : "Upload an invoice";
+      if (!file) return;
+
+      this.filename =
+        file.name.length > 10
+          ? file.name.substring(0, 10) + "..." + file.name.slice(-4)
+          : file.name;
+
+      const fileType = file.type;
+      if (fileType.includes("image")) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          this.previewUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else if (fileType === "application/pdf") {
+        this.previewUrl = require("@/assets/pdf-icon.png");
+      } else {
+        this.previewUrl = null;
+      }
     },
-    submitExpense() {
+    async submitExpense() {
       const priceValue = parseFloat(this.form.total);
       const formattedDate = this.getFormattedDate(this.form.date);
+      const file = this.$refs.fileInput?.files[0];
+      let localFileData = null;
+
+      if (file) {
+        const reader = new FileReader();
+        localFileData = await new Promise(resolve => {
+          reader.onload = e => {
+            resolve({
+              name: file.name,
+              type: file.type,
+              dataUrl: e.target.result
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+      }
       const updatedTransaction = {
+        id: this.editData?.id ?? Date.now().toString(),
         category: this.form.category,
         icon: this.getIcon(this.form.category),
         currency: "Rupees",
@@ -257,18 +322,22 @@ export default {
         categoryClass: this.getCategoryClass(this.form.category),
         iconClass: this.getCategoryClass(this.form.category)
       };
+      if (file && localFileData) {
+        updatedTransaction.invoiceUrl = localFileData.dataUrl;
+      }
 
-      if (this.editData) {
-        this.$store.dispatch("updateTransaction", {
-          index: this.editData.index,
-          updatedTransaction
-        });
+      if (this.editData && this.editData.id) {
+        updatedTransaction.id = this.editData.id;
+        this.updateTransaction(updatedTransaction);
       } else {
-        this.$store.dispatch("addTransaction", updatedTransaction);
+        updatedTransaction.id = Date.now().toString();
+        this.addTransaction(updatedTransaction);
       }
       this.resetForm();
       this.$emit("close");
+      this.$emit("clearEditData");
     },
+
     getFormattedDate(dateInput) {
       const date = new Date(dateInput);
       return date.toLocaleDateString("en-GB", {
@@ -279,18 +348,18 @@ export default {
     },
     getIcon(category) {
       const iconMap = {
-        Food: "Food logo.svg",
-        Travel: "Travel icon.svg",
-        Rent: "Rent Icon.svg",
-        Salary: "Salary Icon.svg",
+        Food: "foodlogo.svg",
+        Travel: "travelicon.svg",
+        Rent: "renticon.svg",
+        Salary: "salary.svg",
         Education: "education.svg",
         Shopping: "shopping.svg",
         Health: "health.svg",
         Entertainment: "entertainment.svg",
         Utilities: "utilities.svg",
         Interest: "interest.svg",
-        "Business Income": "business-income.svg",
-        Freelance: "freelance 1.svg",
+        "Business Income": "businessincome.svg",
+        Freelance: "freelance.svg",
         Investment: "profit.svg",
         Taxes: "tax.svg",
         Insurance: "insurance.svg",
@@ -305,7 +374,21 @@ export default {
         Food: "food-category-icons",
         Travel: "travel-category-icons",
         Rent: "rent-category-icons",
-        Salary: "salary-category-icons"
+        Salary: "salary-category-icons",
+        Education: "education-category-icons",
+        Shopping: "shopping-category-icons",
+        Health: "health-category-icons",
+        Entertainment: "entertainment-category-icons",
+        Utilities: "utilities-category-icons",
+        Interest: "interest-category-icons",
+        "Business Income": "business-income-category-icons",
+        Freelance: "freelance-category-icons",
+        Investment: "investment-category-icons",
+        Taxes: "tax-category-icons",
+        Insurance: "insurance-category-icons",
+        Gifts: "gifts-category-icons",
+        Subscriptions: "subscriptions-category-icons",
+        Other: "other-category-icons"
       };
       return classMap[category] || "";
     },
@@ -331,15 +414,18 @@ export default {
       return `${year}-${month}-${day}`;
     },
     resetForm() {
-      this.form.transactionType = "Credits";
-      this.form.category = "";
-      this.form.mode = "";
-      this.form.date = "";
-      this.form.total = "";
-      this.form.tot2 = "";
-      this.form.description = "";
+      this.form = {
+        transactionType: "Credits",
+        category: "",
+        mode: "",
+        date: "",
+        total: "",
+        currency: "Rupee",
+        description: ""
+      };
       this.filename = "Upload an invoice";
-
+      this.previewUrl = null;
+      this.localFileData = null;
       if (this.$refs.fileInput) {
         this.$refs.fileInput.value = null;
       }
@@ -349,10 +435,9 @@ export default {
 </script>
 
 <style scoped>
-  * {
+  *{
     font-family: "Roboto", sans-serif;
   }
-
   ::v-deep(.vs__dropdown-menu) {
     max-height: 100px;
     overflow-y: auto;
@@ -392,6 +477,7 @@ export default {
   .radio-group {
     display: flex;
     align-items: center;
+    margin-left: 50px;
   }
 
   .radio-option {
@@ -401,6 +487,10 @@ export default {
     font-size: 13px;
     position: relative;
     cursor: pointer;
+  }
+
+  .rd2 {
+    margin-left: 30px;
   }
 
   .radio-option input[type="radio"] {
@@ -427,6 +517,7 @@ export default {
     background-color: #78a55a;
     border-radius: 50%;
   }
+
   .no-spinner::-webkit-outer-spin-button,
   .no-spinner::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -465,6 +556,13 @@ export default {
     caret-color: transparent;
   }
 
+  .vect2 {
+    border-radius: 10px;
+    margin-top: 24px;
+    width: 90%;
+    height: 78%;
+  }
+
   #fileinput {
     height: 286px;
     display: none;
@@ -499,6 +597,7 @@ export default {
     padding: 0px;
     margin-left: 35px;
   }
+
   .inp:hover,
   .inp-desc:hover,
   .amount-inp:hover {
@@ -560,7 +659,7 @@ export default {
     border-radius: 8px;
     width: 850px;
     height: 500px;
-    z-index: 1000;
+    z-index: 1;
     margin: 42px 0px 5px 145px;
   }
 
@@ -583,9 +682,11 @@ export default {
     background-color: #1b1919;
     appearance: none;
   }
+
   .amount-inp::placeholder {
     color: #565564;
   }
+
   .date {
     height: 30px;
     width: 285px;
@@ -599,8 +700,8 @@ export default {
   }
 
   .date::-webkit-calendar-picker-indicator {
-    height: 16px;
-    width: 16px;
+    height: 10px;
+    width: 10px;
     filter: invert(91%) sepia(6%) saturate(509%) hue-rotate(207deg)
       brightness(70%) contrast(95%);
     padding-right: 10px;
@@ -611,7 +712,6 @@ export default {
     resize: none;
     padding-left: 11px;
     padding-top: 8px;
-    font-family: "Roboto", sans-serif;
     height: 88px;
     width: 270px;
     text-align: start;
@@ -747,5 +847,404 @@ export default {
 
   ::v-deep(.custom-input:hover .vs__dropdown-toggle) {
     border: 1.5px solid #78a55a !important;
+  }
+
+  @media (max-width: 600px) {
+    .new-expense {
+      padding: 10px;
+      width: 295px;
+      height: 454px;
+      margin: 80px 0px 5px 10px;
+      left: 4%;
+    }
+
+    .header2 {
+      height: 15px;
+      width: 15px;
+      margin-left: 118px;
+      padding-top: 22px;
+    }
+
+    .page-title {
+      font-size: 18px;
+      padding-top: 10px;
+      padding-left: 15px;
+    }
+
+    .required-note {
+      margin-left: 17px;
+      font-size: 9px;
+    }
+
+    .radio-group {
+      margin-left: 15px;
+    }
+
+    .radio-option {
+      font-size: 11px;
+    }
+
+    .labels {
+      font-size: 13px;
+    }
+
+    #main-div1 {
+      margin-left: 16px;
+    }
+
+    .rd2 {
+      margin-left: 10px;
+    }
+
+    .radio-option .custom-radio {
+      width: 12px;
+      height: 12px;
+    }
+
+    .radio-option input[type="radio"]:checked + .custom-radio::after {
+      width: 6px;
+      height: 6px;
+      top: 3px;
+      left: 3px;
+    }
+
+    .category-select {
+      width: 178px;
+      margin-left: 30px;
+    }
+
+    .mode-select {
+      width: 113px;
+      margin-left: 54px;
+    }
+
+    .inp-desc {
+      margin-left: 22px;
+      padding-left: 11px;
+      padding-top: 8px;
+      height: 48px;
+      width: 163px;
+      font-size: 10px;
+    }
+
+    .date-wrapper {
+      margin-left: 41px;
+      position: relative;
+      width: 290px;
+    }
+
+    .date {
+      width: 112px;
+      margin-left: 14px;
+      height: 21px;
+      font-size: 10px;
+      padding-left: 5px;
+    }
+
+    .date::placeholder {
+      font-size: 4px;
+    }
+
+    .calendar-icon {
+      position: relative;
+      top: 2px;
+      right: 18px;
+      width: 10px;
+      height: 10px;
+    }
+
+    .tot1 {
+      margin-left: 36px;
+      height: 18px;
+      width: 104px;
+    }
+
+    input[type="number"] {
+      font-size: 10px;
+      padding-left: 5px;
+    }
+
+    .upload {
+      margin-top: 61px;
+      margin-left: -225px;
+      height: 53px;
+      width: 55px;
+      position: absolute;
+      border-radius: 5px;
+    }
+
+    .Vector {
+      width: 20px;
+      height: 20px;
+      margin-top: 15px;
+      caret-color: transparent;
+    }
+
+    .vect2 {
+      border-radius: 10px;
+      margin-top: 2px;
+      width: 90%;
+      height: 78%;
+    }
+
+    .invoice-para {
+      font-size: 5px;
+      margin-top: 2px;
+    }
+
+    .amount-inp {
+      font-size: 10px;
+      position: absolute;
+      margin-left: 208px;
+      height: 19px;
+      padding-left: 8px;
+      width: 45px;
+    }
+
+    .my-button {
+      margin-top: 17px;
+      margin-left: 212px;
+      border-radius: 6px;
+      width: 70px;
+      height: 25px;
+      font-size: 10px;
+      align-items: center;
+    }
+
+    ::v-deep .category-select .vs__dropdown-menu {
+      width: 175px !important;
+      min-width: unset !important;
+      max-width: unset !important;
+    }
+
+    ::v-deep .mode-select .vs__dropdown-menu {
+      width: 110px !important;
+      min-width: unset !important;
+      max-width: unset !important;
+    }
+
+    ::v-deep(.category-select .vs__search),
+    ::v-deep(.category-select .vs__dropdown-option),
+    ::v-deep(.category-select .vs__dropdown-toggle),
+    ::v-deep(.mode-select .vs__search),
+    ::v-deep(.mode-select .vs__dropdown-option),
+    ::v-deep(.mode-select .vs__dropdown-toggle),
+    ::v-deep(.currency-select .vs__search),
+    ::v-deep(.currency-select .vs__dropdown-option),
+    ::v-deep(.currency-select .vs__dropdown-toggle) {
+      font-size: 8px !important;
+    }
+
+    ::v-deep(.custom-input .vs__dropdown-toggle) {
+      height: 21px;
+    }
+
+    ::v-deep(.dropdown-icon .vs__dropdown-toggle) {
+      background-position: right 6px center;
+      background-size: 7px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .new-expense {
+      padding: 15px;
+      width: 450px;
+      height: 500px;
+      margin: 100px 0px 10px 150px;
+    }
+
+    .header2 {
+      height: 28px;
+      width: 28px;
+      margin-left: 156px;
+      padding-top: 35px;
+    }
+
+    .page-title {
+      font-size: 26px;
+      padding-top: 15px;
+      padding-left: 25px;
+    }
+
+    .required-note {
+      margin-left: 25px;
+      font-size: 11px;
+    }
+
+    .radio-group {
+      margin-left: 25px;
+    }
+
+    .radio-option {
+      font-size: 13px;
+    }
+
+    .labels {
+      font-size: 15px;
+    }
+
+    #main-div1 {
+      margin-left: 25px;
+    }
+
+    .rd2 {
+      margin-left: 15px;
+    }
+
+    .radio-option .custom-radio {
+      width: 15px;
+      height: 15px;
+    }
+
+    .radio-option input[type="radio"]:checked + .custom-radio::after {
+      width: 8px;
+      height: 8px;
+      top: 4px;
+      left: 4px;
+    }
+
+    .category-select {
+      width: 269px;
+      margin-left: 40px;
+    }
+
+    .mode-select {
+      width: 182px;
+      margin-left: 68px;
+    }
+
+    .inp-desc {
+      margin-left: 30px;
+      padding-left: 15px;
+      padding-top: 10px;
+      height: 55px;
+      width: 249px;
+      font-size: 12px;
+    }
+
+    .date-wrapper {
+      margin-left: 50px;
+      position: relative;
+      width: 350px;
+    }
+
+    .date {
+      width: 182px;
+      margin-left: 19px;
+      height: 28px;
+      font-size: 12px;
+      padding-left: 8px;
+    }
+
+    .date::placeholder {
+      font-size: 8px;
+    }
+
+    .calendar-icon {
+      position: relative;
+      top: 3px;
+      right: 22px;
+      width: 15px;
+      height: 15px;
+    }
+
+    .tot1 {
+      margin-left: 47px;
+      height: 24px;
+      width: 168px;
+    }
+
+    input[type="number"] {
+      font-size: 12px;
+      padding-left: 8px;
+    }
+
+    .upload {
+      margin-top: 77px;
+      margin-left: -209px;
+      height: 70px;
+      width: 75px;
+      position: absolute;
+      border-radius: 5px;
+    }
+
+    .Vector {
+      width: 28px;
+      height: 28px;
+      margin-top: 20px;
+      caret-color: transparent;
+    }
+
+    .vect2 {
+      border-radius: 10px;
+      margin-top: 3px;
+      width: 90%;
+      height: 78%;
+    }
+
+    .invoice-para {
+      font-size: 8px;
+      margin-top: 3px;
+    }
+
+    .amount-inp {
+      font-size: 12px;
+      position: absolute;
+      margin-left: 297px;
+      height: 25px;
+      padding-left: 10px;
+      width: 63px;
+    }
+
+    .my-button {
+      margin-top: 25px;
+      margin-left: 310px;
+      border-radius: 6px;
+      width: 90px;
+      height: 30px;
+      font-size: 12px;
+      align-items: center;
+    }
+
+    ::v-deep .category-select .vs__dropdown-menu {
+      width: 269px !important;
+      min-width: unset !important;
+      max-width: unset !important;
+    }
+
+    ::v-deep .mode-select .vs__dropdown-menu {
+      width: 182px !important;
+      min-width: unset !important;
+      max-width: unset !important;
+    }
+
+    ::v-deep(.category-select .vs__search),
+    ::v-deep(.category-select .vs__dropdown-option),
+    ::v-deep(.category-select .vs__dropdown-toggle),
+    ::v-deep(.mode-select .vs__search),
+    ::v-deep(.mode-select .vs__dropdown-option),
+    ::v-deep(.mode-select .vs__dropdown-toggle),
+    ::v-deep(.currency-select .vs__search),
+    ::v-deep(.currency-select .vs__dropdown-option),
+    ::v-deep(.currency-select .vs__dropdown-toggle) {
+      font-size: 10px !important;
+    }
+
+    ::v-deep(.custom-input .vs__dropdown-toggle) {
+      height: 28px;
+    }
+
+    ::v-deep(.dropdown-icon .vs__dropdown-toggle) {
+      background-position: right 8px center;
+      background-size: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
   }
 </style>
