@@ -193,7 +193,7 @@ export default {
     }
 }
 
-@media (min-width: 605px) and (max-width: 1024px) {
+@media (min-width: 601px) and (max-width: 1024px) {
     .title {
         font-size: 30px;
     }
@@ -236,7 +236,7 @@ export default {
         border-radius: 12px;
         border: 1px solid #6e6d7a;
         width: 25vw;
-        height: 30vw;
+        height: 33.3vw;
         margin-left: 12px;
     }
 

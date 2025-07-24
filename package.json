@@ -13,16 +13,20 @@
     "core-js": "^3.8.3",
     "firebase": "^11.9.1",
     "portal-vue": "^2.1.7",
+     "dotenv": "^17.2.0",
+     "firebase-admin": "^13.4.0",
     "vue": "^2.6.14",
     "vue-chartkick": "^0.6.1",
     "vue-router": "^3.6.5",
+    "vue-select": "^3.20.4",
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^3.2.1",
     "vue-select": "^3.20.4",
     "vuex": "^3.6.2",
     "vuex-persistedstate": "^3.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "vue-template-compiler": "^2.6.14"

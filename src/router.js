@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import LoginDashboard from '@/View/Login.vue'
 import Dashboard from '@/View/DashboardView.vue'
 import AnalyticsDashboard from '@/View/AnalyticsDashboard.vue'
-import SettingDashboard from '@/components/UserSettings.vue'
+import SettingDashboard from '@/View/UserSettings.vue'
 import ContainerView from '@/View/ContainerView.vue'
 import { auth } from '@/firebase'
 
