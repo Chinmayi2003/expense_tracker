@@ -2,25 +2,24 @@
   "name": "expense-tracker",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://chinmayi2003.github.io/expense_tracker",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "chart.js": "2.9",
     "core-js": "^3.8.3",
+    "dotenv": "^17.2.0",
     "firebase": "^11.9.1",
+    "firebase-admin": "^13.4.0",
     "portal-vue": "^2.1.7",
-     "dotenv": "^17.2.0",
-     "firebase-admin": "^13.4.0",
     "vue": "^2.6.14",
     "vue-chartkick": "^0.6.1",
     "vue-router": "^3.6.5",
-    "vue-select": "^3.20.4",
-    "vuex": "^3.6.2",
-    "vuex-persistedstate": "^3.2.1",
     "vue-select": "^3.20.4",
     "vuex": "^3.6.2",
     "vuex-persistedstate": "^3.2.1"
@@ -29,6 +28,7 @@
     "@babel/core": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "gh-pages": "^6.3.0",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
