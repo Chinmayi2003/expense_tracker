@@ -4,14 +4,15 @@
       <div class="nav-elements">
         <div class="profile-header">
           <img :src="require('@/assets/Profile-icon.svg')" alt="Profile Icon" class="profile-icon" />
-          <h2 class="profile-name">{{ userName.slice(0, 4) }}</h2>
+          <h2 class="profile-name">John</h2>
         </div>
         <div
           class="nav-icons"
           v-for="(item, index) in navItems"
           :key="index"
           :class="{ active: isActive(item.routeName) }"
-          @click="handleClick(item)"
+          @click="onClickHandler(item)"
+
         >
           <img
             :src="require(`@/assets/${item.icon}`)"
@@ -33,7 +34,8 @@
         v-for="(item, index) in navItems"
         :key="index"
         :class="{ active: isActive(item.routeName) }"
-        @click="item.func"
+        @click="onClickHandler(item)"
+
       >
         <img
           :src="require(`@/assets/${item.icon}`)"
@@ -50,32 +52,43 @@ import { auth } from "@/firebase";
 
 export default {
   name: "MySidebar1",
-  props: {
-    userName: String
-  },
   data() {
     return {
-      showLogoutPopup: false,
       isMobile: window.innerWidth <= 768,
       navItems: [
         {
           label: "Dashboard",
           icon: "dashboardicon.svg",
           routeName: "dashboard",
-          height: "20px"
+          height: "20px",
+          func: () => {
+            if (this.$route.name !== "dashboard") {
+              this.$router.push({ name: "dashboard" });
+            }
+          }
         },
         {
           label: "Analytics",
           icon: "analyticsicon.svg",
           id: "analytics-icon",
           routeName: "analytics",
-          height: "20px"
+          height: "20px",
+          func: () => {
+            if (this.$route.name !== "analytics") {
+              this.$router.push({ name: "analytics" });
+            }
+          }
         },
         {
           label: "Settings",
           icon: "settingsicon.svg",
           routeName: "setting",
-          height: "21px"
+          height: "21px",
+          func: () => {
+            if (this.$route.name !== "setting") {
+              this.$router.push({ name: "setting" });
+            }
+          }
         },
         {
           label: "Logout",
@@ -84,7 +97,7 @@ export default {
           height: "20px",
           id: "logout-icon",
           margin: "10px",
-          isLogout: true
+         isLogout:true
         }
       ]
     };
@@ -102,13 +115,19 @@ export default {
     checkScreenSize() {
       this.isMobile = window.innerWidth <= 768;
     },
-    handleClick(item) {
-      if (item.label === "Logout") {
-        this.$emit("logoutPopup", true);
-      } else if (this.$route.name !== item.routeName) {
-        this.$router.push({ name: item.routeName });
-      }
-    }
+    onClickHandler(item) {
+  
+  this.handleClick(item); // Then handle routing
+},
+  handleClick(item) {
+  if (item.isLogout) {
+    this.$emit("logoutPopup", true);
+  } else if (this.$route.name !== item.routeName) {
+    this.$router.push({ name: item.routeName });
+  }
+}
+
+
   }
 };
 </script>
@@ -151,8 +170,7 @@ export default {
     font-size: 19.5px;
     font-weight: bold;
     margin: 34px 0 7px -2.5px;
-    max-width: 60px;
-    white-space: nowrap;
+    width: 10px;
   }
 
   .nav-icons {
@@ -182,6 +200,16 @@ export default {
     font-weight: 400;
     opacity: 0.9;
     color: #fff;
+  }
+
+  .nav-icons:hover img {
+    filter: invert(50%) sepia(40%) saturate(600%) hue-rotate(65deg)
+      brightness(90%) contrast(85%);
+  }
+
+  .nav-icons:hover .menu-item {
+    color: #78a55a;
+    filter: drop-shadow(0 0 4px rgba(120, 165, 90, 0.2));
   }
 
   #logout-icon {
@@ -216,5 +244,4 @@ export default {
       display: none;
     }
   }
-  
 </style>
