@@ -54,7 +54,7 @@ export default {
   name: "MySidebar1",
   data() {
     return {
-      isMobile: window.innerWidth <= 768,
+      isMobile: window.innerWidth <= 600,
       navItems: [
         {
           label: "Dashboard",
